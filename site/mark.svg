@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+  <title>Alfred</title>
+  <!-- The app icon without the macOS grid's margin, for the browser tab. Nine lines from the base
+       at y 78 meet the apex (50, 24); the rays are white over the tile at the icon's strengths. -->
+  <rect width="100" height="100" rx="22.5" fill="#1f1e1b"/>
+  <g fill="none" stroke="#fff" stroke-linecap="round">
+    <path d="M29 78 L50 24" stroke-width="1.2" stroke-opacity=".45"/>
+    <path d="M36 78 L50 24" stroke-width="2.2" stroke-opacity=".55"/>
+    <path d="M43 78 L50 24" stroke-width="1.2" stroke-opacity=".45"/>
+    <path d="M50 78 L50 24" stroke-width="1.6" stroke-opacity=".5"/>
+    <path d="M64 78 L50 24" stroke-width="1.2" stroke-opacity=".45"/>
+    <path d="M71 78 L50 24" stroke-width="2.6" stroke-opacity=".55"/>
+  </g>
+  <path d="M22 78 L50 24 L78 78" fill="none" stroke="#faf9f5" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M57 78 L50 24" fill="none" stroke="#3f8f76" stroke-width="4.5" stroke-linecap="round"/>
+</svg>

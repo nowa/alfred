@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Alfred</title>
+<meta name="description" data-t-content="meta.description" content="Alfred 是常驻在你电脑上的主动 agent：替你分配注意力，把你留给最重要的决定。">
+<link rel="icon" href="mark.svg" type="image/svg+xml">
+<link rel="stylesheet" href="style.css">
+<script>
+  // Before the first paint: the language and the appearance, so neither flashes. The language is
+  // the one the reader last chose here, else the first of the browser's languages the page has,
+  // else English. The page itself is written in Chinese; page.js swaps in English or Japanese.
+  (function () {
+    var root = document.documentElement, langs = ["zh", "en", "ja"], saved = null, theme = null;
+    try { saved = localStorage.getItem("alfred.lang"); theme = localStorage.getItem("alfred.theme"); } catch (e) {}
+    var lang = langs.indexOf(saved) >= 0 ? saved : null;
+    var preferred = navigator.languages || [navigator.language || ""];
+    for (var i = 0; !lang && i < preferred.length; i++) {
+      var code = String(preferred[i]).toLowerCase().slice(0, 2);
+      if (langs.indexOf(code) >= 0) lang = code;
+    }
+    lang = lang || "en";
+    root.lang = { zh: "zh-Hans", en: "en", ja: "ja" }[lang];
+    root.dataset.lang = lang;
+    if (lang !== "zh") {
+      root.classList.add("pending");
+      setTimeout(function () { root.classList.remove("pending"); }, 1500);
+    }
+    if (theme === "light" || theme === "dark") root.dataset.theme = theme;
+  })();
+</script>
+</head>
+<body>
+<header class="wrap bar">
+  <a class="name" href="./">
+    <svg class="mark" viewBox="0 0 100 100" aria-hidden="true">
+      <rect width="100" height="100" rx="22.5" class="mark-tile"/>
+      <g class="mark-rays" fill="none" stroke-linecap="round">
+        <path d="M29 78 L50 24" stroke-width="1.2" stroke-opacity=".45"/>
+        <path d="M36 78 L50 24" stroke-width="2.2" stroke-opacity=".55"/>
+        <path d="M43 78 L50 24" stroke-width="1.2" stroke-opacity=".45"/>
+        <path d="M50 78 L50 24" stroke-width="1.6" stroke-opacity=".5"/>
+        <path d="M64 78 L50 24" stroke-width="1.2" stroke-opacity=".45"/>
+        <path d="M71 78 L50 24" stroke-width="2.6" stroke-opacity=".55"/>
+      </g>
+      <path d="M22 78 L50 24 L78 78" class="mark-line" fill="none" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M57 78 L50 24" class="mark-accent" fill="none" stroke-width="4.5" stroke-linecap="round"/>
+    </svg>
+    Alfred
+  </a>
+  <nav class="sections" data-t-aria="ui.sections" aria-label="页面">
+    <a href="#how" data-t="nav.how">特点</a>
+    <a href="#measure" data-t="nav.measure">评测</a>
+    <a href="#install" data-t="nav.install">安装</a>
+    <a href="#releases" data-t="nav.releases">版本</a>
+  </nav>
+  <div class="controls">
+    <div class="menu-wrap">
+      <button type="button" class="icon-button" id="lang-button" aria-haspopup="menu" aria-expanded="false" aria-controls="lang-menu" data-t-aria="ui.lang" aria-label="语言">
+        <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2.8v2.2M3 5h10"/><path d="M5.2 5.4c.9 3.9 3.3 6.6 6.8 8.3M10.8 5.4c-.9 3.9-3.3 6.6-7.6 8.3"/><path d="M12.8 21l4.2-10.5L21.2 21M14.3 17.4h5.4"/></svg>
+      </button>
+      <div class="menu" id="lang-menu" role="menu" data-t-aria="ui.lang" aria-label="语言" hidden>
+        <button type="button" role="menuitemradio" data-lang="zh" lang="zh-Hans" aria-checked="true">中文</button>
+        <button type="button" role="menuitemradio" data-lang="en" lang="en" aria-checked="false">English</button>
+        <button type="button" role="menuitemradio" data-lang="ja" lang="ja" aria-checked="false">日本語</button>
+      </div>
+    </div>
+    <button type="button" class="icon-button" id="theme-button" aria-label="外观：跟随系统">
+      <svg viewBox="0 0 24 24" aria-hidden="true" data-mode="system" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="8"/><path d="M12 4a8 8 0 0 0 0 16z" fill="currentColor" stroke="none"/></svg>
+      <svg viewBox="0 0 24 24" aria-hidden="true" data-mode="light" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" hidden><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></svg>
+      <svg viewBox="0 0 24 24" aria-hidden="true" data-mode="dark" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" hidden><path d="M19.5 14.2A8 8 0 0 1 9.8 4.5a8 8 0 1 0 9.7 9.7z"/></svg>
+    </button>
+  </div>
+</header>
+
+<main>
+  <section class="wrap hero">
+    <div class="hero-text">
+      <h1 data-t="hero.title">主动替你分配注意力，<br>把你留给最重要的决定</h1>
+      <p class="lede" data-t="hero.lede">人来人往，事有终始。Alfred 替你认人、记事、跟进：回音一到，便接着办；该你定夺的，才来问你。</p>
+      <p class="avail" data-t="hero.avail">常驻在你自己的电脑上的主动式 Agent。<br>现可通过 Telegram 与桌面端使用，手机版与&nbsp;TUI&nbsp;即将推出。</p>
+      <div class="install">
+        <code>curl -fsSL https://github.com/nowa/alfred/releases/latest/download/install.sh | sh</code>
+        <button type="button" class="copy" data-t-aria="copy.label" aria-label="复制安装命令"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="7" y="7" width="9.5" height="9.5" rx="2" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M13 4.5v-.5A1.5 1.5 0 0 0 11.5 2.5h-7A1.5 1.5 0 0 0 3 4v7a1.5 1.5 0 0 0 1.5 1.5H5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button>
+      </div>
+      <p class="install-note"><span data-t="hero.note">macOS 和 Linux。在终端里运行，一问一答完成设置。</span><a href="#install" data-t="hero.guide">安装说明</a></p>
+    </div>
+    <figure class="figure hero-figure">
+      <svg id="attention" viewBox="16 18 68 64" role="img" data-t-aria="fig.aria" aria-label="四十一条线从底边汇向同一个顶点，拼成字母 A。两条边最粗，最重的一条内线是墨绿色，其余是细线。"></svg>
+      <figcaption>
+        <math display="block" class="formula">
+          <msub><mi>α</mi><mi>i</mi></msub><mo>=</mo>
+          <mfrac>
+            <mrow><mi>exp</mi><mo>(</mo><msub><mi>s</mi><mi>i</mi></msub><mo>/</mo><mi>τ</mi><mo>)</mo></mrow>
+            <mrow><munder><mo>∑</mo><mi>j</mi></munder><mi>exp</mi><mo>(</mo><msub><mi>s</mi><mi>j</mi></msub><mo>/</mo><mi>τ</mi><mo>)</mo></mrow>
+          </mfrac>
+        </math>
+        <p data-t="fig.caption">注意力是有限的：softmax 让权重之和恒为 1，给了这一条，就少给别的。温度 <i>τ</i> 降下来，权重从平均收向少数几条。图形取自 Sol LeWitt 的线条作品，如《墙面绘画 #289》（1976）：黑墙上，白色的直线从中心、各边中点和四角出发。Alfred 的图标是降温后的那一刻：众多输入汇成一个 A，最重的一条是墨绿。</p>
+      </figcaption>
+    </figure>
+  </section>
+
+  <section class="wrap section ruled" id="how" aria-labelledby="how-title">
+    <div class="section-head">
+      <h2 id="how-title" data-t="how.title">特点</h2>
+      <p data-t="how.intro">托付出去的事，多半在你不看着的时候发生。下面八条说的是那时它怎么认人、记事、跟进、接着办，又在什么时候停下来问你。</p>
+    </div>
+    <div class="points">
+      <div class="point">
+        <h3 data-t="how.people.title">认得出人，也分得清说法</h3>
+        <p data-t="how.people.body">你告诉过它的号码和邮箱，都记在这个人的档案里，他换哪种方式找你，它都认得出。他是你的什么人，只有你说了才算。陌生号码自称房东换了号，这个号码不会因此算作房东的；信里写着“以后发票都转给我”，没有你点头，它不会照做。</p>
+        <p class="tag" data-t="how.people.tag"><a href="#measure">程序保证</a></p>
+      </div>
+      <div class="point">
+        <h3 data-t="how.memory.title">记下的，都是你读得懂的文件</h3>
+        <p data-t="how.memory.body">你随口说一句“周报以后发到工作邮箱”，下周它就照做。你的规矩、每个人的档案、没办完的事项，都是工作区里的普通文件，随时可以打开、修改。它记下一条规矩会告诉你，不对就用 /undo 撤回。</p>
+        <p class="tag" data-t="how.memory.tag"><a href="#week">实测：图 1</a></p>
+      </div>
+      <div class="point">
+        <h3 data-t="how.errand.title">要等的事，交给它等</h3>
+        <p data-t="how.errand.body">约一个大家都有空的时间，催一份迟迟不来的回复：一件事一条会话。对方一回，它醒来接着办；到时间还没回，它起草一条提醒，你同意才发；办不下去，它停下来问你，接着做还是到此为止。</p>
+        <p class="tag" data-t="how.errand.tag"><a href="#measure">程序保证</a></p>
+      </div>
+      <div class="point">
+        <h3 data-t="how.wake.title">你还没想起来，它已经在办</h3>
+        <p data-t="how.wake.body">提醒到点、邮件进来、交办的事有了回音，都会叫醒它。没事的时候它只是等着，不运行模型，也不花钱。接了邮箱或电话，它每晚把当天的往来整理成一屏简报。房东说热水器修好了，它会问你这件算不算办完，不替你关掉。</p>
+        <p class="tag" data-t="how.wake.tag"><a href="#brief">实测：图 2</a></p>
+      </div>
+      <div class="point">
+        <h3 data-t="how.resume.title">被打断了，从停下的地方接着办</h3>
+        <p data-t="how.resume.body">每一步先记下，再去执行。断电、崩溃或者重启之后，它从最后一步接着办。一封信发到一半被打断，它不会悄悄重发，而是告诉你结果不明，由你决定。</p>
+        <p class="tag" data-t="how.resume.tag"><a href="#measure">程序保证</a></p>
+      </div>
+      <div class="point">
+        <h3 data-t="how.ask.title">替你开口之前，先问你</h3>
+        <p data-t="how.ask.body">它可以起草回信、安排时间、回复联系人，但每一句要发给别人的话，都先停下来等你同意，发出去的就是你看过的那一版。它向对方说明自己是你的 AI 助理，不冒充你。</p>
+        <p class="tag" data-t="how.ask.tag"><a href="#measure">程序保证</a></p>
+      </div>
+      <div class="point">
+        <h3 data-t="how.source.title">每件事都有出处</h3>
+        <p data-t="how.source.body">回答用到读过的网页或你工作区里的文件，链接就跟在那件事后面。你不必凭信任，点开就能核对。</p>
+        <p class="tag" data-t="how.source.tag"><a href="#links">实测：图 3</a></p>
+      </div>
+      <div class="point">
+        <h3 data-t="how.cost.title">用哪个模型、花多少，由你定</h3>
+        <p data-t="how.cost.body">用你的 ChatGPT 订阅，或者 Anthropic、OpenAI、DeepSeek 的 API key，每条会话各选模型。一天花到 10 美元（可以改），它就不再自己启动新的事，只办你亲口交代的。</p>
+        <p class="tag" data-t="how.cost.tag"><a href="#measure">程序保证</a></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap section ruled" id="measure" aria-labelledby="measure-title">
+    <div class="section-head">
+      <h2 id="measure-title" data-t="measure.title">评测</h2>
+      <p data-t="measure.intro">有的事由程序保证，比如替你对外开口先问你、断了从停下处接着办，这些都有测试守着。有的事要靠模型判断：该记什么，该问什么，出处写没写对。这一类用真实的模型来测：改一处之前测一次，改完再测一次。世界、地址和号码都是编的，图里的每个点都是一次实测。</p>
+    </div>
+    <div class="figures">
+      <figure class="figure" id="week">
+        <div class="panels">
+          <div class="panel"><p class="panel-title" data-t="week.recalled">记得对的次数</p><svg data-panel="recalled" role="img" data-t-aria="week.recalled.aria" aria-label="记得对的次数：Alfred 24 次里 24 次，Claude Code 24 次里 21 次。"></svg></div>
+          <div class="panel"><p class="panel-title" data-t="week.bytes">一周后记下的字节</p><svg data-panel="bytes" role="img" data-t-aria="week.bytes.aria" aria-label="一周后记下的字节：Alfred 672 到 756，Claude Code 4,532 到 5,529。"></svg></div>
+          <div class="panel"><p class="panel-title" data-t="week.cost">一周的花费</p><svg data-panel="cost" role="img" data-t-aria="week.cost.aria" aria-label="一周的花费：Alfred 0.27 到 0.29 美元，Claude Code 0.97 到 1.04 美元。"></svg></div>
+        </div>
+        <figcaption data-t="week.caption"><b>图 1</b>记得对，也记得少。同一周的 8 次对话里，有该记的，也有不该记的；一周后问 6 个问题。Alfred 和 Claude Code 2.1.318 都用 Opus 5.5，各跑 3 次。第一行每个点是一件事的一次，空心是没记对：Claude Code 3 次都把“这个回复太长了”记成了长期规矩。下面两行是 3 次的区间。2026-11-05。</figcaption>
+      </figure>
+      <figure class="figure" id="brief">
+        <svg id="brief-dots" role="img" data-t-aria="brief.aria" aria-label="晚上的简报问不问你：热水器，改之前 20 封里 0 封问了算不算办完，改之后 20 封里 20 封；押金，改之前和改之后都是 20 封里 0 封。"></svg>
+        <figcaption data-t="brief.caption"><b>图 2</b>该你定夺的，才来问你。房东发短信说热水器修好了，事项却还标着等待中。每个点是一封晚上的简报，实心表示问了你这件算不算办完。改之前 20 封里 0 封问，改之后 20 封都问；还没办完的押金，40 封里 0 封被问成办完没有。Sonnet 5.5 和 Opus 5.5，每组 5 次，两轮。2026-11-05。</figcaption>
+      </figure>
+      <figure class="figure" id="links">
+        <svg id="links-dots" role="img" data-t-aria="links.aria" aria-label="回答里的出处：改之前 64 次里 5 次写了链接，改之后 88 次里 85 次。"></svg>
+        <figcaption data-t="links.caption"><b>图 3</b>出处写成链接，不编地址。每个点是一次回答，实心表示把出处写成了链接。改之前 64 次里有 5 次，改之后 88 次里有 85 次；所有轮次里，编造的地址都是 0 次。Sonnet 5.5 和 Opus 5.5，每组 8 次，改之后 Sonnet 跑了两遍。2026-11-06。</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="wrap section ruled" id="principles" aria-labelledby="principles-title">
+    <div class="section-head">
+      <h2 id="principles-title" data-t="principles.title">原则</h2>
+      <p data-t="principles.intro">Alfred 按三件事取舍：精炼，只为独特的价值而做，以测量为准。</p>
+    </div>
+    <dl class="principles">
+      <div><dt data-t="principles.few.name">少概念</dt><dd data-t="principles.few.text">每个新概念，要么替换掉一个旧的，要么解决一个已经发生的问题。</dd></div>
+      <div><dt data-t="principles.real.name">只为真实的问题</dt><dd data-t="principles.real.text">一项能力，从一个真实的例子和你感受得到的价值开始。“以后可能用得上”不算理由。</dd></div>
+      <div><dt data-t="principles.small.name">最小的一层</dt><dd data-t="principles.small.text">能不做就不做；要做，先用现有的机制，再考虑扩展，最后才动核心。</dd></div>
+      <div><dt data-t="principles.measure.name">先测量，再改</dt><dd data-t="principles.measure.text">先写出测得的数，再谈改动；改完，再测一次。</dd></div>
+      <div><dt data-t="principles.path.name">一条规则，一条路</dt><dd data-t="principles.path.text">恢复、重试和失败都走正常的路径。出现特例，先问能不能去掉它。</dd></div>
+      <div><dt data-t="principles.seen.name">失败看得见</dt><dd data-t="principles.seen.text">一件事要么有结局，要么告诉你。不静默吞掉错误，不停在半路。</dd></div>
+    </dl>
+  </section>
+
+  <section class="wrap section ruled" id="install" aria-labelledby="install-title">
+    <div class="section-head">
+      <h2 id="install-title" data-t="install.title">安装</h2>
+      <p data-t="install.intro">macOS 和 Linux，arm64 和 amd64。</p>
+    </div>
+    <div class="steps">
+      <div class="install">
+        <code>curl -fsSL https://github.com/nowa/alfred/releases/latest/download/install.sh | sh</code>
+        <button type="button" class="copy" data-t-aria="copy.label" aria-label="复制安装命令"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="7" y="7" width="9.5" height="9.5" rx="2" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M13 4.5v-.5A1.5 1.5 0 0 0 11.5 2.5h-7A1.5 1.5 0 0 0 3 4v7a1.5 1.5 0 0 0 1.5 1.5H5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button>
+      </div>
+      <p data-t="install.run">在终端里运行。脚本核对下载的包，把 <code>alfred</code> 和 <code>alfred-telegram</code> 装进 <code>~/.local/bin</code>，再运行 <code>alfred setup</code>：一问一答完成设置，不用写配置文件。用 Hermes Agent 的，<code>alfred setup</code> 会提出把记忆、skill、定时任务、看板和对话搬过来。</p>
+      <p data-t="install.later">跳过的设置，以后直接在对话里让 Alfred 补上。<code>alfred doctor</code> 说明哪一部分不正常。</p>
+      <p data-t="install.update">服务每天检查一次新版本，核对签名和哈希之后，等手上的事做完再换上；新版本启动不了，就换回旧版本和升级前的数据。也可以随时运行 <code>alfred update</code>。</p>
+      <p class="aside" data-t="install.source">以前从源码装过的 Mac：换成这个安装以后，macOS 会把它当作新的程序。要连局域网里的服务，到“系统设置 &gt; 隐私与安全性 &gt; 本地网络”里重新打开。</p>
+    </div>
+  </section>
+  <section class="wrap section ruled" id="releases" aria-labelledby="releases-title">
+    <div class="section-head">
+      <h2 id="releases-title" data-t="releases.title">版本</h2>
+      <p data-t="releases.intro">每个版本都附带 <code>SHA256SUMS</code> 和 signify 签名。装好的 Alfred 每天自己检查新版本，也可以运行 <code>alfred update</code>。</p>
+    </div>
+    <div class="releases" id="release-list">
+      <p class="releases-note" data-t="releases.loading">正在读取版本。</p>
+    </div>
+  </section>
+</main>
+
+<footer class="wrap foot ruled">
+  <svg class="mark" viewBox="0 0 100 100" aria-hidden="true">
+    <rect width="100" height="100" rx="22.5" class="mark-tile"/>
+    <path d="M22 78 L50 24 L78 78" class="mark-line" fill="none" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M57 78 L50 24" class="mark-accent" fill="none" stroke-width="4.5" stroke-linecap="round"/>
+  </svg>
+  <p data-t="footer">Alfred 发布在 <a href="https://github.com/nowa/alfred">github.com/nowa/alfred</a>。这个页面不加载第三方的资源，也不统计访问。</p>
+</footer>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script type="module" src="page.js"></script>
+</body>
+</html>
