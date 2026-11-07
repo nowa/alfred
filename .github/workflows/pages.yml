@@ -1,0 +1,49 @@
+# Deploys site/ to GitHub Pages, with the release history the page reads. A push to main that
+# changes the site runs it, and so does publishing, editing or deleting a release; pushing a tag
+# alone does not.
+name: pages
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "site/**"
+      - ".github/workflows/pages.yml"
+  release:
+    types: [published, edited, deleted]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      # Drafts and prereleases stay off the page. Download links are built from the fixed file
+      # names on the page, so only the version, date and notes are kept.
+      - name: List the releases
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+        run: |
+          latest="$(gh api "repos/$REPO/releases/latest" --jq .tag_name)"
+          gh api --paginate "repos/$REPO/releases" \
+            --jq '.[] | select((.draft or .prerelease) | not) | {version: .tag_name, date: .published_at, body}' \
+            | jq -s --arg latest "$latest" '{latest: $latest, releases: .}' > site/releases.json
+      - uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6.0.0
+      - uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
+        with:
+          path: site
+      - id: deployment
+        uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5.0.1
