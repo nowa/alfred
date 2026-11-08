@@ -1,6 +1,10 @@
 # Deploys site/ to GitHub Pages, with the release history the page reads. A push to main that
 # changes the site runs it, and so does publishing, editing or deleting a release; pushing a tag
 # alone does not.
+#
+# Only main may deploy to the github-pages environment, and a release event runs on its tag. So a
+# release does not deploy: it starts this workflow again on main, which also takes the site from
+# main rather than from the commit the tag points to.
 name: pages
 
 on:
@@ -13,18 +17,33 @@ on:
     types: [published, edited, deleted]
   workflow_dispatch:
 
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-concurrency:
-  group: pages
-  cancel-in-progress: true
+permissions: {}
 
 jobs:
-  deploy:
+  # A run started with GITHUB_TOKEN starts no other workflow, except through workflow_dispatch.
+  rerun-on-main:
+    if: github.event_name == 'release'
     runs-on: ubuntu-latest
+    permissions:
+      actions: write
+    steps:
+      - name: Run the deploy on main
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+        run: gh workflow run pages.yml --repo "$REPO" --ref main
+
+  deploy:
+    if: github.event_name != 'release'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    # On the job, not the workflow, so a deploy never cancels the release run that started it.
+    concurrency:
+      group: pages
+      cancel-in-progress: true
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
