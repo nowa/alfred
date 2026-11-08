@@ -9,8 +9,10 @@ const PLATFORMS = [
   ["linux", "arm64"],
   ["linux", "amd64"],
 ];
-// semver forbids leading zeros, which is also what keeps 2026.11.07 out.
+// semver forbids leading zeros, which is also what keeps the old 2026.11.07 out.
 const SEMVER = /^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)$/;
+// The newest few; the link under the list leads to the rest on GitHub.
+const SHOWN = 5;
 
 // Notes in three languages start each part with one of these lines, exactly. Notes with none of
 // them are the old format, all in Chinese; alfred-release refuses notes with only some.
@@ -84,16 +86,12 @@ function block(b) {
   return ul;
 }
 
-// Newest first by semver, so 0.10.0 comes after 0.9.0; the old date-numbered releases go last.
+// Newest first by semver, so 0.10.0 comes before 0.9.0.
 function order(a, b) {
   const x = SEMVER.exec(a.version);
   const y = SEMVER.exec(b.version);
-  if (x && y) {
-    for (let i = 1; i <= 3; i++) if (x[i] !== y[i]) return Number(y[i]) - Number(x[i]);
-    return 0;
-  }
-  if (x || y) return x ? -1 : 1;
-  return b.date.localeCompare(a.date);
+  for (let i = 1; i <= 3; i++) if (x[i] !== y[i]) return Number(y[i]) - Number(x[i]);
+  return 0;
 }
 
 function link(href, text, className) {
@@ -103,7 +101,6 @@ function link(href, text, className) {
 }
 
 function release(r, latest, t, lang, tag) {
-  const dated = !SEMVER.test(r.version);
   const notes = sections(r.body ?? "");
   const words = blocks(notes[lang] ?? notes.zh ?? "");
   const summary = words[0]?.text != null ? words.shift() : null;
@@ -111,7 +108,6 @@ function release(r, latest, t, lang, tag) {
   const head = make("span", "release-head");
   head.append(make("span", "release-version", r.version));
   if (r.version === latest) head.append(make("span", "badge", t("releases.latest")));
-  if (dated) head.append(make("span", "badge", t("releases.dated")));
   const time = make("time", "release-date", new Intl.DateTimeFormat(tag, { dateStyle: "long" }).format(new Date(r.date)));
   time.dateTime = r.date.slice(0, 10);
   head.append(time);
@@ -127,24 +123,22 @@ function release(r, latest, t, lang, tag) {
   for (const b of words) notesEl.append(block(b));
   if (notesEl.childElementCount) body.append(notesEl);
   if (fallback && lang !== "zh") body.append(make("p", "release-aside", t("releases.onlyZh")));
-  if (!dated) {
-    const base = `${REPO}/download/${r.version}`;
-    const downloads = make("div", "downloads");
-    downloads.setAttribute("role", "group");
-    downloads.setAttribute("aria-label", `${t("releases.download")} ${r.version}`);
-    for (const [os, arch] of PLATFORMS) {
-      const a = link(`${base}/alfred_${r.version}_${os}_${arch}.tar.gz`, t(`os.${os}.${arch}`));
-      a.insertAdjacentHTML("afterbegin", ARROW);
-      downloads.append(a);
-    }
-    const files = make("p", "files");
-    files.append(
-      link(`${base}/install.sh`, t("file.install")),
-      link(`${base}/SHA256SUMS`, t("file.sums")),
-      link(`${base}/SHA256SUMS.sig`, t("file.sig")),
-    );
-    body.append(downloads, files);
+  const base = `${REPO}/download/${r.version}`;
+  const downloads = make("div", "downloads");
+  downloads.setAttribute("role", "group");
+  downloads.setAttribute("aria-label", `${t("releases.download")} ${r.version}`);
+  for (const [os, arch] of PLATFORMS) {
+    const a = link(`${base}/alfred_${r.version}_${os}_${arch}.tar.gz`, t(`os.${os}.${arch}`));
+    a.insertAdjacentHTML("afterbegin", ARROW);
+    downloads.append(a);
   }
+  const files = make("p", "files");
+  files.append(
+    link(`${base}/install.sh`, t("file.install")),
+    link(`${base}/SHA256SUMS`, t("file.sums")),
+    link(`${base}/SHA256SUMS.sig`, t("file.sig")),
+  );
+  body.append(downloads, files);
 
   const li = make("li", "release");
   if (r.version === latest) {
@@ -169,7 +163,8 @@ export function drawReleases(list, data, t, lang, tag) {
   } else {
     const ol = make("ol", "release-list");
     const latest = data.latest;
-    for (const r of [...data.releases].sort(order)) ol.append(release(r, latest, t, lang, tag));
+    const shown = data.releases.filter((r) => SEMVER.test(r.version)).sort(order).slice(0, SHOWN);
+    for (const r of shown) ol.append(release(r, latest, t, lang, tag));
     list.append(ol);
   }
   const all = make("p", "release-all");
