@@ -145,6 +145,8 @@ export const STRINGS = {
     "releases.intro": "Every release comes with <code>SHA256SUMS</code> and a signify signature. An installed Alfred checks for new versions every day, or run <code>alfred update</code>.",
     "releases.loading": "Reading the releases.",
     "footer": "Alfred is released at <a href=\"https://github.com/nowa/alfred\">github.com/nowa/alfred</a>. This page loads nothing from third parties and does not track visits.",
+    "foot.privacy": "Privacy Policy",
+    "foot.terms": "Terms of Service",
   },
   ja: {
     "meta.description": "Alfred は、あなたのコンピュータに常駐する能動的なエージェント。注意を代わりに配り、あなたをいちばん大切な決定のために残します。",
@@ -221,5 +223,7 @@ export const STRINGS = {
     "releases.intro": "各リリースには <code>SHA256SUMS</code> と signify の署名が付きます。インストール済みの Alfred は毎日新しいバージョンを確認します。<code>alfred update</code> でもすぐに更新できます。",
     "releases.loading": "リリースを読み込んでいます。",
     "footer": "Alfred は <a href=\"https://github.com/nowa/alfred\">github.com/nowa/alfred</a> で公開しています。このページは第三者のリソースを読み込まず、アクセスも記録しません。",
+    "foot.privacy": "プライバシーポリシー",
+    "foot.terms": "利用規約",
   },
 };

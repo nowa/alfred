@@ -1,0 +1,409 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Alfred Terms of Service</title>
+<meta name="description" content="The terms for using Alfred, an assistant that runs on your own computer.">
+<link rel="icon" href="../mark.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../style.css">
+<script>
+  // Before the first paint, as on the homepage: the language and the appearance. The page holds
+  // all three languages and CSS shows this one, so nothing is swapped in later.
+  (function () {
+    var root = document.documentElement, langs = ["zh", "en", "ja"], saved = null, theme = null;
+    try { saved = localStorage.getItem("alfred.lang"); theme = localStorage.getItem("alfred.theme"); } catch (e) {}
+    var lang = langs.indexOf(saved) >= 0 ? saved : null;
+    var preferred = navigator.languages || [navigator.language || ""];
+    for (var i = 0; !lang && i < preferred.length; i++) {
+      var code = String(preferred[i]).toLowerCase().slice(0, 2);
+      if (langs.indexOf(code) >= 0) lang = code;
+    }
+    lang = lang || "en";
+    root.lang = { zh: "zh-Hans", en: "en", ja: "ja" }[lang];
+    root.dataset.lang = lang;
+    if (theme === "light" || theme === "dark") root.dataset.theme = theme;
+  })();
+</script>
+</head>
+<body>
+<header class="wrap bar">
+  <a class="name" href="../">
+    <svg class="mark" viewBox="0 0 100 100" aria-hidden="true">
+      <rect width="100" height="100" rx="22.5" class="mark-tile"/>
+      <g class="mark-rays" fill="none" stroke-linecap="round">
+        <path d="M29 78 L50 24" stroke-width="1.2" stroke-opacity=".45"/>
+        <path d="M36 78 L50 24" stroke-width="2.2" stroke-opacity=".55"/>
+        <path d="M43 78 L50 24" stroke-width="1.2" stroke-opacity=".45"/>
+        <path d="M50 78 L50 24" stroke-width="1.6" stroke-opacity=".5"/>
+        <path d="M64 78 L50 24" stroke-width="1.2" stroke-opacity=".45"/>
+        <path d="M71 78 L50 24" stroke-width="2.6" stroke-opacity=".55"/>
+      </g>
+      <path d="M22 78 L50 24 L78 78" class="mark-line" fill="none" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M57 78 L50 24" class="mark-accent" fill="none" stroke-width="4.5" stroke-linecap="round"/>
+    </svg>
+    Alfred
+  </a>
+  <div class="controls">
+    <div class="menu-wrap">
+      <button type="button" class="icon-button" id="lang-button" aria-haspopup="menu" aria-expanded="false" aria-controls="lang-menu" aria-label="Language">
+        <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2.8v2.2M3 5h10"/><path d="M5.2 5.4c.9 3.9 3.3 6.6 6.8 8.3M10.8 5.4c-.9 3.9-3.3 6.6-7.6 8.3"/><path d="M12.8 21l4.2-10.5L21.2 21M14.3 17.4h5.4"/></svg>
+      </button>
+      <div class="menu" id="lang-menu" role="menu" aria-label="Language" hidden>
+        <button type="button" role="menuitemradio" data-lang="zh" lang="zh-Hans" aria-checked="false">中文</button>
+        <button type="button" role="menuitemradio" data-lang="en" lang="en" aria-checked="true">English</button>
+        <button type="button" role="menuitemradio" data-lang="ja" lang="ja" aria-checked="false">日本語</button>
+      </div>
+    </div>
+    <button type="button" class="icon-button" id="theme-button" aria-label="Appearance: System">
+      <svg viewBox="0 0 24 24" aria-hidden="true" data-mode="system" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="8"/><path d="M12 4a8 8 0 0 0 0 16z" fill="currentColor" stroke="none"/></svg>
+      <svg viewBox="0 0 24 24" aria-hidden="true" data-mode="light" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" hidden><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></svg>
+      <svg viewBox="0 0 24 24" aria-hidden="true" data-mode="dark" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" hidden><path d="M19.5 14.2A8 8 0 0 1 9.8 4.5a8 8 0 1 0 9.7 9.7z"/></svg>
+    </button>
+  </div>
+</header>
+
+<main class="wrap legal">
+
+<article class="doc l10n" lang="en">
+  <header class="doc-head">
+    <h1>Terms of Service</h1>
+    <p class="updated">Last updated: <time datetime="2026-11-14">November 14, 2026</time></p>
+    <p class="lede">These terms govern your use of Alfred, the software published by the Alfred project (“we”, “us”), including its release builds and its installer, and your use of this website. By installing or using Alfred, you agree to these terms. If you do not agree, do not use Alfred.</p>
+  </header>
+
+  <section class="clause">
+    <h2>What Alfred is</h2>
+    <div class="clause-body">
+      <p>Alfred is an assistant that you run on your own computer. It works with the AI model provider and the accounts you connect. It is software, not a hosted service: we do not run it for you, do not hold your data, and have no access to your installation. How Alfred handles your information is described in the <a href="../privacy/">Privacy Policy</a>.</p>
+    </div>
+  </section>
+
+  <section class="clause">
+    <h2>License</h2>
+    <div class="clause-body">
+      <p>Alfred is free of charge. Subject to these terms, we grant you a personal, non-exclusive, non-transferable license to download, install and use Alfred’s release builds for your personal use. You may not sell, resell, rent, sublicense or redistribute Alfred or any modified copy of it. We reserve all rights not expressly granted in these terms. Open-source components included in Alfred remain under their own licenses.</p>
+    </div>
+  </section>
+
+  <section class="clause">
+    <h2>Third-party services</h2>
+    <div class="clause-body">
+      <p>Alfred works with services you choose to connect, such as AI model providers, email and calendar accounts, and messaging apps. Their own terms govern your use of them. You are responsible for following those terms, for any fees they charge, including for AI model usage, and for having the right to connect each account. We are not responsible for the availability, changes or conduct of third-party services.</p>
+    </div>
+  </section>
+
+  <section class="clause">
+    <h2>Acting on your behalf</h2>
+    <div class="clause-body">
+      <p>Alfred reads, organizes, drafts and follows up for you. Alfred is built to ask you before what it writes reaches another person. Email and calendar invitations sent with Alfred’s own tools are asked about every time, and only the version you approve is sent. For a tool you added or a program on your computer, you can tell Alfred that it need not ask again, and for commands outside its sandbox you can allow an hour without questions; those commands first pass an automated check, which asks you when it holds one back. What Alfred does under such a permission is your responsibility. You are responsible for your instructions and for what you approve.</p>
+    </div>
+  </section>
+
+  <section class="clause">
+    <h2>AI can be wrong</h2>
+    <div class="clause-body">
+      <p>Alfred relies on AI models, which can misunderstand, leave things out or state things that are not true. Check important details, such as dates, amounts, addresses and commitments, before you rely on them or approve a message. Alfred does not give professional advice, such as legal, medical or financial advice.</p>
+    </div>
+  </section>
+
+  <section class="clause">
+    <h2>Acceptable use</h2>
+    <div class="clause-body">
+      <p>Use Alfred only in lawful ways. Do not use it to send spam, to harass, deceive or impersonate anyone, or to access accounts or data you are not authorized to access.</p>
+    </div>
+  </section>
+
+  <section class="clause">
+    <h2>Updates</h2>
+    <div class="clause-body">
+      <p>By default, Alfred checks for a new version once a day, verifies its signature and installs it. You can turn automatic updates off. We may change Alfred, or stop releasing it, at any time.</p>
+    </div>
+  </section>
+
+  <section class="clause">
+    <h2>Your responsibilities</h2>
+    <div class="clause-body">
+      <p>You are responsible for the computer Alfred runs on, for who can use it, for your backups, and for keeping your credentials safe.</p>
+    </div>
+  </section>
+
+  <section class="clause">
+    <h2>No warranty</h2>
+    <div class="clause-body">
+      <p>To the fullest extent permitted by law, Alfred is provided “as is” and “as available”, without warranties of any kind, express or implied, including warranties of merchantability, fitness for a particular purpose, accuracy and non-infringement.</p>
+    </div>
+  </section>
+
+  <section class="clause">
+    <h2>Limitation of liability</h2>
+    <div class="clause-body">
+      <p>To the fullest extent permitted by law, the Alfred project and its contributors are not liable for any indirect, incidental, special, consequential or punitive damages, or for any loss of data, messages, time, profits or opportunities, arising from your use of or inability to use Alfred, including messages it sent or did not send and reminders it missed.</p>
+    </div>
+  </section>
+
+  <section class="clause">
+    <h2>Ending use</h2>
+    <div class="clause-body">
+      <p>You may stop using Alfred at any time: uninstall it, and withdraw the access you granted it in your connected accounts. Your license ends automatically if you breach these terms. The sections “No warranty” and “Limitation of liability” continue to apply after your use ends.</p>
+    </div>
+  </section>
+
+  <section class="clause">
+    <h2>Changes to these terms</h2>
+    <div class="clause-body">
+      <p>We may update these terms. When we do, we update this page and the date at the top. If you keep using Alfred after a change, you accept the updated terms. The full history of this page is public at <a href="https://github.com/nowa/alfred/commits/main/site/terms">github.com/nowa/alfred</a>.</p>
+    </div>
+  </section>
+
+  <section class="clause">
+    <h2>Language</h2>
+    <div class="clause-body">
+      <p>These terms are written in English. Translations are provided for convenience; if a translation differs, the English version governs.</p>
+    </div>
+  </section>
+
+  <section class="clause">
+    <h2>Contact</h2>
+    <div class="clause-body">
+      <p>For questions about these terms, open an issue at <a href="https://github.com/nowa/alfred/issues">github.com/nowa/alfred/issues</a>. Issues are public, so do not include personal information.</p>
+    </div>
+  </section>
+</article>
+
+<article class="doc l10n" lang="zh-Hans">
+  <header class="doc-head">
+    <p class="governs">本页是英文版的译文，仅供参考；如与英文版不一致，以英文版为准。<button type="button" data-read="en">阅读英文版</button></p>
+    <h1>服务条款</h1>
+    <p class="updated">最后更新：<time datetime="2026-11-14">2026 年 11 月 14 日</time></p>
+    <p class="lede">本条款适用于你对 Alfred 和本网站的使用。Alfred 是 Alfred 项目（下称“我们”）发布的软件，包括它的发布版本和安装程序。安装或使用 Alfred，即表示你同意本条款。如果你不同意，请不要使用 Alfred。</p>
+  </header>
+
+  <section class="clause">
+    <h2>Alfred 是什么</h2>
+    <div class="clause-body">
+      <p>Alfred 是你在自己电脑上运行的助理，配合你接入的 AI 模型服务商和账户工作。它是软件，不是托管服务：我们不替你运行它，不保存你的数据，也无法访问你安装的 Alfred。Alfred 怎样处理你的信息，见<a href="../privacy/">隐私政策</a>。</p>
+    </div>
+  </section>
+
+  <section class="clause">
+    <h2>使用许可</h2>
+    <div class="clause-body">
+      <p>Alfred 免费提供。在遵守本条款的前提下，我们授予你一项个人的、非独占、不可转让的许可，允许你为个人用途下载、安装和使用 Alfred 的发布版本。你不得出售、转售、出租、再许可或再分发 Alfred 或它的任何修改版本。本条款未明确授予的权利，均由我们保留。Alfred 包含的开源组件仍适用它们各自的许可。</p>
+    </div>
+  </section>
+
+  <section class="clause">
+    <h2>第三方服务</h2>
+    <div class="clause-body">
+      <p>Alfred 配合你选择接入的服务工作，比如 AI 模型服务商、邮箱和日历账户、消息应用。你对这些服务的使用，受它们各自的条款约束。遵守这些条款、支付它们收取的费用（包括 AI 模型的用量费用）、确保你有权接入每一个账户，是你的责任。第三方服务的可用性、变更和行为，不由我们负责。</p>
+    </div>
+  </section>
+
+  <section class="clause">
+    <h2>代你办事</h2>
+    <div class="clause-body">
+      <p>Alfred 替你读取、整理、起草和跟进。它的设计是：写的内容送达别人之前先问你。用 Alfred 自己的工具发出的邮件和日历邀请，每次都问，只发出你同意的版本。对你添加的工具或电脑上的某个程序，你可以告诉 Alfred 以后不用再问；对沙箱外的命令，你还可以允许一小时内不问。这些命令先经过一道自动检查，被拦下时才问你。Alfred 在这类许可下做的事，由你负责。你对自己的指示和你同意发出的内容负责。</p>
+    </div>
+  </section>
+
+  <section class="clause">
+    <h2>AI 可能出错</h2>
+    <div class="clause-body">
+      <p>Alfred 依赖 AI 模型，模型可能理解错误、遗漏内容，或说出不真实的事。依赖重要信息（比如日期、金额、地址和承诺）或同意发出一条消息之前，请先核对。Alfred 不提供法律、医疗、财务等专业建议。</p>
+    </div>
+  </section>
+
+  <section class="clause">
+    <h2>合理使用</h2>
+    <div class="clause-body">
+      <p>只以合法的方式使用 Alfred。不得用它发送垃圾信息，骚扰、欺骗或冒充他人，也不得用它访问你无权访问的账户或数据。</p>
+    </div>
+  </section>
+
+  <section class="clause">
+    <h2>更新</h2>
+    <div class="clause-body">
+      <p>默认情况下，Alfred 每天检查一次新版本，验证签名后安装。你可以关闭自动更新。我们可以随时修改 Alfred，或停止发布新版本。</p>
+    </div>
+  </section>
+
+  <section class="clause">
+    <h2>你的责任</h2>
+    <div class="clause-body">
+      <p>你负责 Alfred 所在的电脑、谁能使用这台电脑、你的备份，以及保管好你的凭据。</p>
+    </div>
+  </section>
+
+  <section class="clause">
+    <h2>不提供保证</h2>
+    <div class="clause-body">
+      <p>在法律允许的最大范围内，Alfred 按“现状”和“现有”提供，不提供任何明示或默示的保证，包括适销性、特定用途适用性、准确性和不侵权的保证。</p>
+    </div>
+  </section>
+
+  <section class="clause">
+    <h2>责任限制</h2>
+    <div class="clause-body">
+      <p>在法律允许的最大范围内，对于因你使用或无法使用 Alfred 而产生的任何间接、附带、特殊、后果性或惩罚性损害，或者数据、消息、时间、利润、机会的损失，包括它发出或没有发出的消息、错过的提醒，Alfred 项目及其贡献者均不承担责任。</p>
+    </div>
+  </section>
+
+  <section class="clause">
+    <h2>停止使用</h2>
+    <div class="clause-body">
+      <p>你可以随时停止使用 Alfred：卸载它，并在你接入的账户里撤回授予它的权限。你违反本条款时，你的许可自动终止。“不提供保证”和“责任限制”两节在你停止使用后继续适用。</p>
+    </div>
+  </section>
+
+  <section class="clause">
+    <h2>条款变更</h2>
+    <div class="clause-body">
+      <p>我们可能更新本条款。更新时，我们会更新本页和页首的日期。变更后继续使用 Alfred，即表示你接受更新后的条款。本页的完整修改历史公开在 <a href="https://github.com/nowa/alfred/commits/main/site/terms">github.com/nowa/alfred</a>。</p>
+    </div>
+  </section>
+
+  <section class="clause">
+    <h2>语言</h2>
+    <div class="clause-body">
+      <p>本条款以英文写成。译文仅供参考，如与英文版不一致，以英文版为准。</p>
+    </div>
+  </section>
+
+  <section class="clause">
+    <h2>联系</h2>
+    <div class="clause-body">
+      <p>对本条款有疑问，请在 <a href="https://github.com/nowa/alfred/issues">github.com/nowa/alfred/issues</a> 提交 issue。issue 是公开的，请不要写入个人信息。</p>
+    </div>
+  </section>
+</article>
+
+<article class="doc l10n" lang="ja">
+  <header class="doc-head">
+    <p class="governs">このページは英語版の翻訳で、参考のためのものです。内容に相違がある場合は英語版が優先します。<button type="button" data-read="en">英語版を読む</button></p>
+    <h1>利用規約</h1>
+    <p class="updated">最終更新日：<time datetime="2026-11-14">2026年11月14日</time></p>
+    <p class="lede">本規約は、Alfred プロジェクト（以下「私たち」）が公開するソフトウェア Alfred（リリース版とインストーラーを含む）と、このウェブサイトの利用に適用されます。Alfred をインストールまたは利用した時点で、あなたは本規約に同意したものとみなされます。同意しない場合は、Alfred を利用しないでください。</p>
+  </header>
+
+  <section class="clause">
+    <h2>Alfred とは</h2>
+    <div class="clause-body">
+      <p>Alfred は、あなたが自分のコンピュータで動かすアシスタントで、あなたが接続した AI モデルの提供者とアカウントを使って動作します。ホスティングされたサービスではなくソフトウェアです。私たちがあなたの代わりに動かすことはなく、あなたのデータを保管せず、あなたがインストールした Alfred にアクセスすることもできません。Alfred があなたの情報をどう扱うかは、<a href="../privacy/">プライバシーポリシー</a>をご覧ください。</p>
+    </div>
+  </section>
+
+  <section class="clause">
+    <h2>使用許諾</h2>
+    <div class="clause-body">
+      <p>Alfred は無料です。本規約に従うことを条件に、私たちはあなたに、個人的な用途のために Alfred のリリース版をダウンロード、インストール、利用する、個人的、非独占的、譲渡不能なライセンスを付与します。Alfred またはその改変版を販売、再販売、貸与、再許諾、再配布することはできません。本規約で明示的に付与していない権利は、すべて私たちに留保されます。Alfred に含まれるオープンソースのコンポーネントには、それぞれのライセンスが適用されます。</p>
+    </div>
+  </section>
+
+  <section class="clause">
+    <h2>第三者のサービス</h2>
+    <div class="clause-body">
+      <p>Alfred は、AI モデルの提供者、メールやカレンダーのアカウント、メッセージアプリなど、あなたが接続を選んだサービスと連携します。それらのサービスの利用には、それぞれの規約が適用されます。それらの規約を守ること、AI モデルの利用料を含む料金を支払うこと、各アカウントを接続する権利を持っていることは、あなたの責任です。第三者のサービスの可用性、変更、行為について、私たちは責任を負いません。</p>
+    </div>
+  </section>
+
+  <section class="clause">
+    <h2>あなたの代わりに行うこと</h2>
+    <div class="clause-body">
+      <p>Alfred は、あなたの代わりに読み、整理し、下書きし、フォローします。Alfred は、書いたものが他の人に届く前にあなたに確認するように作られています。Alfred 自身のツールで送るメールとカレンダーの招待は毎回確認し、承認された版だけを送ります。あなたが追加したツールやコンピュータ上のプログラムについては、今後確認しなくてよいと伝えることができ、サンドボックス外のコマンドについては、1 時間確認なしにすることもできます。これらのコマンドはまず自動チェックを通り、止められたときにだけあなたに確認します。こうした許可のもとで Alfred が行うことは、あなたの責任となります。あなたの指示と、あなたが承認した内容については、あなたが責任を負います。</p>
+    </div>
+  </section>
+
+  <section class="clause">
+    <h2>AI は間違えることがあります</h2>
+    <div class="clause-body">
+      <p>Alfred は AI モデルに依存しており、モデルは誤解したり、内容を落としたり、事実でないことを述べたりすることがあります。日付、金額、住所、約束などの重要な情報は、それに頼る前や、メッセージを承認する前に確認してください。Alfred は、法律、医療、金融などの専門的な助言を提供しません。</p>
+    </div>
+  </section>
+
+  <section class="clause">
+    <h2>適切な利用</h2>
+    <div class="clause-body">
+      <p>Alfred は合法的な方法でのみ利用してください。スパムの送信、嫌がらせ、他人を欺くこと、なりすまし、権限のないアカウントやデータへのアクセスに使ってはいけません。</p>
+    </div>
+  </section>
+
+  <section class="clause">
+    <h2>アップデート</h2>
+    <div class="clause-body">
+      <p>既定では、Alfred は 1 日 1 回新しいバージョンを確認し、署名を検証してからインストールします。自動アップデートはオフにできます。私たちは、いつでも Alfred を変更したり、リリースを終了したりすることがあります。</p>
+    </div>
+  </section>
+
+  <section class="clause">
+    <h2>あなたの責任</h2>
+    <div class="clause-body">
+      <p>Alfred を動かすコンピュータ、それを使える人、バックアップ、認証情報の管理は、あなたの責任です。</p>
+    </div>
+  </section>
+
+  <section class="clause">
+    <h2>保証の否認</h2>
+    <div class="clause-body">
+      <p>法律で認められる最大限の範囲で、Alfred は「現状のまま」かつ「提供可能な範囲で」提供され、商品性、特定目的への適合性、正確性、権利の非侵害の保証を含め、明示または黙示を問わず、いかなる保証もありません。</p>
+    </div>
+  </section>
+
+  <section class="clause">
+    <h2>責任の制限</h2>
+    <div class="clause-body">
+      <p>法律で認められる最大限の範囲で、Alfred の利用または利用できないことから生じる間接的、付随的、特別、結果的、懲罰的な損害、またはデータ、メッセージ、時間、利益、機会の損失（Alfred が送った、または送らなかったメッセージや、逃したリマインダーを含む）について、Alfred プロジェクトとその貢献者は責任を負いません。</p>
+    </div>
+  </section>
+
+  <section class="clause">
+    <h2>利用の終了</h2>
+    <div class="clause-body">
+      <p>あなたはいつでも Alfred の利用をやめられます。アンインストールし、接続したアカウントで Alfred に許可したアクセスを取り消してください。本規約に違反した場合、あなたのライセンスは自動的に終了します。「保証の否認」と「責任の制限」は、利用の終了後も適用されます。</p>
+    </div>
+  </section>
+
+  <section class="clause">
+    <h2>規約の変更</h2>
+    <div class="clause-body">
+      <p>私たちは本規約を更新することがあります。更新したときは、このページと冒頭の日付を更新します。変更後も Alfred を使い続けた場合、更新後の規約に同意したものとみなされます。このページの変更履歴はすべて <a href="https://github.com/nowa/alfred/commits/main/site/terms">github.com/nowa/alfred</a> で公開しています。</p>
+    </div>
+  </section>
+
+  <section class="clause">
+    <h2>言語</h2>
+    <div class="clause-body">
+      <p>本規約は英語で書かれています。翻訳は参考のためのもので、内容に相違がある場合は英語版が優先します。</p>
+    </div>
+  </section>
+
+  <section class="clause">
+    <h2>お問い合わせ</h2>
+    <div class="clause-body">
+      <p>本規約についての質問は、<a href="https://github.com/nowa/alfred/issues">github.com/nowa/alfred/issues</a> で issue を作成してください。issue は公開されるため、個人情報は書かないでください。</p>
+    </div>
+  </section>
+</article>
+
+</main>
+
+<footer class="wrap foot ruled">
+  <svg class="mark" viewBox="0 0 100 100" aria-hidden="true">
+    <rect width="100" height="100" rx="22.5" class="mark-tile"/>
+    <path d="M22 78 L50 24 L78 78" class="mark-line" fill="none" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M57 78 L50 24" class="mark-accent" fill="none" stroke-width="4.5" stroke-linecap="round"/>
+  </svg>
+  <div class="foot-text">
+    <p class="l10n" lang="en">Alfred is released at <a href="https://github.com/nowa/alfred">github.com/nowa/alfred</a>.</p>
+    <p class="l10n" lang="zh-Hans">Alfred 发布在 <a href="https://github.com/nowa/alfred">github.com/nowa/alfred</a>。</p>
+    <p class="l10n" lang="ja">Alfred は <a href="https://github.com/nowa/alfred">github.com/nowa/alfred</a> で公開しています。</p>
+    <p class="foot-links">
+      <a href="../privacy/"><span class="l10n" lang="en">Privacy Policy</span><span class="l10n" lang="zh-Hans">隐私政策</span><span class="l10n" lang="ja">プライバシーポリシー</span></a>
+      <a href="../terms/" aria-current="page"><span class="l10n" lang="en">Terms of Service</span><span class="l10n" lang="zh-Hans">服务条款</span><span class="l10n" lang="ja">利用規約</span></a>
+    </p>
+  </div>
+</footer>
+
+<script type="module" src="../legal.js"></script>
+</body>
+</html>

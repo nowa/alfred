@@ -132,6 +132,8 @@ p code, dd code { padding: 1px 5px; border-radius: 4px; background: var(--code);
 .sections a { color: var(--ink-2); text-decoration: none; white-space: nowrap; }
 .sections a:hover { color: var(--ink); }
 .controls { display: flex; align-items: center; gap: 6px; margin-right: -8px; }
+/* A page without the sections still keeps the controls at the right. */
+.name + .controls { margin-left: auto; }
 
 .icon-button {
   position: relative;
@@ -418,9 +420,69 @@ details .release-body { padding-bottom: 26px; }
 .files { display: flex; flex-wrap: wrap; gap: 6px 20px; margin-top: 12px; font-size: var(--s0); }
 .release-all { margin-top: 20px; font-size: var(--s0); }
 
+/* The privacy policy and the terms. Each page holds all three languages; CSS shows the reader's,
+   and English when no script has run. */
+.l10n { display: none; }
+:root:not([data-lang]) .l10n:lang(en),
+:root[data-lang="en"] .l10n:lang(en),
+:root[data-lang="zh"] .l10n:lang(zh),
+:root[data-lang="ja"] .l10n:lang(ja) { display: revert; }
+
+.legal { padding-top: 48px; padding-bottom: 96px; }
+.doc-head { max-width: 44em; padding-bottom: 56px; }
+.doc-head h1 { margin-bottom: 10px; font-size: var(--s5); line-height: 1.25; font-weight: 600; letter-spacing: 0.01em; }
+:lang(en) .doc-head h1 { letter-spacing: -0.015em; }
+.updated { font-size: var(--s0); color: var(--ink-3); font-variant-numeric: tabular-nums; }
+.doc-head .lede { margin-top: 20px; font-size: var(--s2); line-height: 1.7; color: var(--ink-2); }
+.doc-head .lede + .lede { margin-top: 12px; }
+:lang(en) .doc-head .lede { line-height: 1.55; }
+/* A translation says first that the English governs, and offers it. */
+.governs { margin-bottom: 32px; padding: 10px 14px; border: 1px solid var(--rule); border-radius: 10px; background: var(--code); font-size: var(--s0); line-height: 1.7; color: var(--ink-2); }
+.governs button {
+  margin-left: 0.6em;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--green-text);
+  font: inherit;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.governs button:hover { color: var(--ink); }
+/* Each part: its heading on the left, as the homepage's sections have it, the text at a reading
+   measure on the right. */
+.clause { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: 64px; padding: 32px 0; border-top: 1px solid var(--rule); }
+.clause h2 { font-size: var(--s2); line-height: 1.45; font-weight: 600; text-wrap: balance; }
+.clause-body { max-width: 40em; color: var(--ink-2); }
+.clause-body > * + * { margin-top: 12px; }
+.clause-body ul { margin-bottom: 0; padding-left: 1.15em; }
+.clause-body li + li { margin-top: 8px; }
+.clause-body strong { font-weight: 600; color: var(--ink); }
+.clause-body code { padding: 1px 5px; border-radius: 4px; background: var(--code); overflow-wrap: anywhere; }
+
+@media (max-width: 960px) {
+  .clause { grid-template-columns: minmax(0, 1fr); gap: 10px; }
+}
+
+@media (max-width: 720px) {
+  .legal { padding-top: 24px; padding-bottom: 64px; }
+  .doc-head { padding-bottom: 40px; }
+  .doc-head h1 { font-size: 1.76rem; }
+  .doc-head .lede { font-size: var(--s1); }
+  .clause { padding: 24px 0; }
+}
+
 .foot { display: flex; gap: 14px; align-items: flex-start; padding-top: 40px; padding-bottom: 56px; font-size: var(--s0); color: var(--ink-3); }
 .foot .mark { width: 20px; height: 20px; margin-top: 3px; }
 .foot p { max-width: 46em; }
+.foot-text { display: grid; gap: 8px; }
+.foot-links { display: flex; flex-wrap: wrap; gap: 4px 20px; }
+.foot-links a { color: var(--ink-2); text-decoration: none; }
+.foot-links a:hover { color: var(--ink); text-decoration: underline; }
+.foot-links a[aria-current="page"] { color: var(--ink); }
 
 @media (max-width: 1040px) {
   .sections { display: none; }

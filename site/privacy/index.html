@@ -1,0 +1,526 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Alfred Privacy Policy</title>
+<meta name="description" content="How Alfred, an assistant that runs on your own computer, handles your information.">
+<link rel="icon" href="../mark.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../style.css">
+<script>
+  // Before the first paint, as on the homepage: the language and the appearance. The page holds
+  // all three languages and CSS shows this one, so nothing is swapped in later.
+  (function () {
+    var root = document.documentElement, langs = ["zh", "en", "ja"], saved = null, theme = null;
+    try { saved = localStorage.getItem("alfred.lang"); theme = localStorage.getItem("alfred.theme"); } catch (e) {}
+    var lang = langs.indexOf(saved) >= 0 ? saved : null;
+    var preferred = navigator.languages || [navigator.language || ""];
+    for (var i = 0; !lang && i < preferred.length; i++) {
+      var code = String(preferred[i]).toLowerCase().slice(0, 2);
+      if (langs.indexOf(code) >= 0) lang = code;
+    }
+    lang = lang || "en";
+    root.lang = { zh: "zh-Hans", en: "en", ja: "ja" }[lang];
+    root.dataset.lang = lang;
+    if (theme === "light" || theme === "dark") root.dataset.theme = theme;
+  })();
+</script>
+</head>
+<body>
+<header class="wrap bar">
+  <a class="name" href="../">
+    <svg class="mark" viewBox="0 0 100 100" aria-hidden="true">
+      <rect width="100" height="100" rx="22.5" class="mark-tile"/>
+      <g class="mark-rays" fill="none" stroke-linecap="round">
+        <path d="M29 78 L50 24" stroke-width="1.2" stroke-opacity=".45"/>
+        <path d="M36 78 L50 24" stroke-width="2.2" stroke-opacity=".55"/>
+        <path d="M43 78 L50 24" stroke-width="1.2" stroke-opacity=".45"/>
+        <path d="M50 78 L50 24" stroke-width="1.6" stroke-opacity=".5"/>
+        <path d="M64 78 L50 24" stroke-width="1.2" stroke-opacity=".45"/>
+        <path d="M71 78 L50 24" stroke-width="2.6" stroke-opacity=".55"/>
+      </g>
+      <path d="M22 78 L50 24 L78 78" class="mark-line" fill="none" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M57 78 L50 24" class="mark-accent" fill="none" stroke-width="4.5" stroke-linecap="round"/>
+    </svg>
+    Alfred
+  </a>
+  <div class="controls">
+    <div class="menu-wrap">
+      <button type="button" class="icon-button" id="lang-button" aria-haspopup="menu" aria-expanded="false" aria-controls="lang-menu" aria-label="Language">
+        <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2.8v2.2M3 5h10"/><path d="M5.2 5.4c.9 3.9 3.3 6.6 6.8 8.3M10.8 5.4c-.9 3.9-3.3 6.6-7.6 8.3"/><path d="M12.8 21l4.2-10.5L21.2 21M14.3 17.4h5.4"/></svg>
+      </button>
+      <div class="menu" id="lang-menu" role="menu" aria-label="Language" hidden>
+        <button type="button" role="menuitemradio" data-lang="zh" lang="zh-Hans" aria-checked="false">中文</button>
+        <button type="button" role="menuitemradio" data-lang="en" lang="en" aria-checked="true">English</button>
+        <button type="button" role="menuitemradio" data-lang="ja" lang="ja" aria-checked="false">日本語</button>
+      </div>
+    </div>
+    <button type="button" class="icon-button" id="theme-button" aria-label="Appearance: System">
+      <svg viewBox="0 0 24 24" aria-hidden="true" data-mode="system" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="8"/><path d="M12 4a8 8 0 0 0 0 16z" fill="currentColor" stroke="none"/></svg>
+      <svg viewBox="0 0 24 24" aria-hidden="true" data-mode="light" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" hidden><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></svg>
+      <svg viewBox="0 0 24 24" aria-hidden="true" data-mode="dark" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" hidden><path d="M19.5 14.2A8 8 0 0 1 9.8 4.5a8 8 0 1 0 9.7 9.7z"/></svg>
+    </button>
+  </div>
+</header>
+
+<main class="wrap legal">
+
+<article class="doc l10n" lang="en">
+  <header class="doc-head">
+    <h1>Privacy Policy</h1>
+    <p class="updated">Last updated: <time datetime="2026-11-14">November 14, 2026</time></p>
+    <p class="lede">Alfred is an assistant that you install and run on your own computer. It is published by the Alfred project (“we”, “us”). This policy explains what information Alfred handles, where it is kept, and where it goes.</p>
+    <p class="lede">In short: Alfred keeps your data on your computer. It sends data only to the places this policy lists, and only for the features you use. Nothing reaches us.</p>
+  </header>
+
+  <section class="clause">
+    <h2>Scope</h2>
+    <div class="clause-body">
+      <p>This policy covers the Alfred software, including its background service, desktop app, command-line tools and the bridge to the messaging app you connect, and this website at nowa.im/alfred.</p>
+    </div>
+  </section>
+
+  <section class="clause">
+    <h2>We do not receive your data</h2>
+    <div class="clause-body">
+      <p>We run no server that receives data from Alfred. Alfred has no analytics, telemetry or crash reporting that sends anything to us. We cannot see, access or recover your data, and we have none to sell or share.</p>
+    </div>
+  </section>
+
+  <section class="clause">
+    <h2>What Alfred handles</h2>
+    <div class="clause-body">
+      <p>Alfred handles only what you connect to it or give it:</p>
+      <ul>
+        <li>Your conversations with Alfred, and the reminders, tasks, notes, profiles of people and other files in its workspace.</li>
+        <li>Files elsewhere on your computer that Alfred reads for a task you give it, and the images and files you send it.</li>
+        <li>From email accounts you connect: your messages, including senders, recipients, subjects, bodies and attachments, and the mail Alfred sends for you.</li>
+        <li>From calendars you connect: your events, your list of calendars and your free and busy times.</li>
+        <li>Credentials you provide for the services you connect: API keys, sign-in tokens and passwords.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="clause">
+    <h2>How Alfred uses it</h2>
+    <div class="clause-body">
+      <p>Only to provide the features you use: telling you about new mail that matters, searching and organizing your mail, drafting replies, keeping your calendar, reminding you, and following up on tasks you hand it. Alfred is built to ask you before what it writes reaches another person. Email and calendar invitations sent with Alfred’s own tools are asked about every time, and only the version you approve is sent. For a tool you added or a program on your computer, you can tell Alfred that it need not ask again, and for commands outside its sandbox you can allow an hour without questions; those commands first pass an automated check, which asks you when it holds one back.</p>
+      <p>Alfred does not use your data for advertising, does not sell it, and does not use it to build profiles for anyone else.</p>
+    </div>
+  </section>
+
+  <section class="clause">
+    <h2>Where it is kept</h2>
+    <div class="clause-body">
+      <p>On your computer, by default in:</p>
+      <ul>
+        <li><code>~/Alfred</code>: the workspace, files that you and Alfred can both read and edit.</li>
+        <li><code>~/.config/alfred-runtime</code>: settings, credentials and sign-ins. Credential files can be read only by your user account.</li>
+        <li><code>~/Library/Application Support/alfred-runtime</code> on macOS, or <code>~/.local/share/alfred-runtime</code> on Linux: Alfred’s record of events and conversations, including the text of the emails it has read.</li>
+      </ul>
+      <p>The desktop app keeps its sign-in token, and copies of the images it shows and the files you open in it, in its own folder on your computer until you clear them in its settings. Alfred’s logs record identifiers and reasons, not message content or names. Backups you make with <code>alfred backup</code> are files on your computer; they include your credentials, so keep them safe.</p>
+    </div>
+  </section>
+
+  <section class="clause">
+    <h2>When data leaves your computer</h2>
+    <div class="clause-body">
+      <p>Alfred sends data only to the places listed below, and only to provide the features you have turned on. For example, new mail in the categories you chose is read by the model as it arrives, so that Alfred can tell you about it.</p>
+      <ul>
+        <li><strong>Your AI model provider.</strong> The model reads what the task at hand needs, such as the text of an email it is summarizing. The provider you choose processes it under its own terms, its privacy policy and your account settings there, including whether it may use your content to improve its models. Review them before you connect it.</li>
+        <li><strong>Your connected accounts.</strong> Alfred reads from and makes changes in your email and calendar accounts, within the access you granted.</li>
+        <li><strong>The people you write to.</strong> Messages and email you approve go to their recipients, and calendar invitations and updates go to the event’s attendees.</li>
+        <li><strong>Your messaging app.</strong> If you talk to Alfred through a messaging app, your conversation passes through that app’s servers, including the text of emails Alfred tells you or asks you about. Some messaging apps are not end-to-end encrypted; for sensitive information, use the desktop app or the terminal.</li>
+        <li><strong>Web searches and pages.</strong> When Alfred searches the web or opens a page for you, the query or the address goes to the search service, which may be your AI model provider, or to the website.</li>
+        <li><strong>Tools and commands.</strong> Tool servers you add, and commands and programs Alfred runs for you, receive what the task gives them and may reach the network as they are built to.</li>
+        <li><strong>Unsubscribing.</strong> When you ask Alfred to unsubscribe you from a mailing list, it sends the request to the web address the sender gave in its email.</li>
+        <li><strong>Your own devices.</strong> If you use the desktop app on another computer, it connects to Alfred over your network.</li>
+        <li><strong>Updates.</strong> Unless you turn automatic updates off, Alfred checks the project’s public release page, or a mirror you set up, once a day for a new version and downloads it from there. These requests carry no personal data, though, as with any web request, the host sees your IP address.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="clause">
+    <h2>Data from connected accounts</h2>
+    <div class="clause-body">
+      <p>When you connect an email or calendar account, Alfred asks for this access:</p>
+      <ul>
+        <li><strong>Email:</strong> full access to your mailbox, which the standard mail protocols Alfred uses (IMAP and SMTP) require, and access to your basic mail settings, which Alfred uses only for filters. Alfred uses the mailbox access to read and search your mail; organize it, for example by labeling or archiving, which Alfred can undo; send mail, each message only after you approve it; when you turn it on, put reply drafts in your drafts folder and remove them afterwards; list, create and delete mail filters when you ask; and unsubscribe you from mailing lists when you ask. Alfred deletes no email except the drafts it put there itself.</li>
+        <li><strong>Calendar:</strong> read, create, change and delete events and respond to invitations, see your list of calendars, and check free and busy times. Alfred does not ask for access to share or delete whole calendars.</li>
+      </ul>
+      <p>Data from these accounts is used only to provide these features, which you see and use in Alfred. It leaves your computer only as described under “When data leaves your computer”. It is not sold and not used for advertising. Alfred does not use or transfer it to develop, improve or train generalized AI or machine learning models. Whether your AI model provider may train on what it receives depends on its terms and your account settings there; if that matters to you, choose a provider or setting that does not. We never receive this data, so no one on our side can read it.</p>
+      <p>You can withdraw Alfred’s access at any time in your account’s security settings, from the list of apps you have granted access to. To also remove the sign-in from your computer, delete that account’s file under <code>~/.config/alfred-runtime</code>.</p>
+    </div>
+  </section>
+
+  <section class="clause">
+    <h2>Keeping and deleting</h2>
+    <div class="clause-body">
+      <p>Alfred keeps your data on your computer until you delete it. You can edit or delete the files in the workspace at any time. To remove everything, uninstall Alfred:</p>
+      <ul>
+        <li>Stop its services and remove them from <code>~/Library/LaunchAgents</code> on macOS or <code>~/.config/systemd/user</code> on Linux.</li>
+        <li>Delete its programs from <code>~/.local/bin</code>, and the line the installer added to your shell’s startup file.</li>
+        <li>Delete the folders listed above, its logs (the <code>alfred-*.log</code> files in <code>~/Library/Logs</code> on macOS; on Linux, its services’ entries in your user journal) and any backups you made.</li>
+        <li>Remove the desktop app and its data folder.</li>
+      </ul>
+      <p>Data already sent to your AI model provider or other services is kept under their policies.</p>
+    </div>
+  </section>
+
+  <section class="clause">
+    <h2>This website</h2>
+    <div class="clause-body">
+      <p>This website is a static site. It sets no cookies, runs no analytics and loads nothing from third parties. It remembers your choice of language and appearance in your browser’s local storage, which stays in your browser. The hosting provider may keep standard server logs, such as IP addresses, under its own policy.</p>
+    </div>
+  </section>
+
+  <section class="clause">
+    <h2>Security</h2>
+    <div class="clause-body">
+      <p>Alfred keeps credential files readable only by your user account, verifies the signature of each update before installing it, and asks you before what it writes reaches another person, as described above. The first install relies on a secure (HTTPS) download and a checksum. No software is perfectly secure: keep your computer, its accounts and its disk protected, for example with disk encryption.</p>
+    </div>
+  </section>
+
+  <section class="clause">
+    <h2>Children</h2>
+    <div class="clause-body">
+      <p>Alfred is not directed to children under 13, or under the minimum age of consent in their country.</p>
+    </div>
+  </section>
+
+  <section class="clause">
+    <h2>Changes</h2>
+    <div class="clause-body">
+      <p>When this policy changes, we update this page and the date at the top. The full history of this page is public at <a href="https://github.com/nowa/alfred/commits/main/site/privacy">github.com/nowa/alfred</a>.</p>
+    </div>
+  </section>
+
+  <section class="clause">
+    <h2>Language</h2>
+    <div class="clause-body">
+      <p>This policy is written in English. Translations are provided for convenience; if a translation differs, the English version governs.</p>
+    </div>
+  </section>
+
+  <section class="clause">
+    <h2>Contact</h2>
+    <div class="clause-body">
+      <p>For questions about this policy, open an issue at <a href="https://github.com/nowa/alfred/issues">github.com/nowa/alfred/issues</a>. Issues are public, so do not include personal information.</p>
+    </div>
+  </section>
+</article>
+
+<article class="doc l10n" lang="zh-Hans">
+  <header class="doc-head">
+    <p class="governs">本页是英文版的译文，仅供参考；如与英文版不一致，以英文版为准。<button type="button" data-read="en">阅读英文版</button></p>
+    <h1>隐私政策</h1>
+    <p class="updated">最后更新：<time datetime="2026-11-14">2026 年 11 月 14 日</time></p>
+    <p class="lede">Alfred 是你安装在自己电脑上运行的助理，由 Alfred 项目（下称“我们”）发布。本政策说明 Alfred 处理哪些信息、存在哪里、发往哪里。</p>
+    <p class="lede">简而言之：Alfred 把你的数据存在你的电脑上，只为你使用的功能，向本政策列出的地方发送数据。我们收不到任何数据。</p>
+  </header>
+
+  <section class="clause">
+    <h2>适用范围</h2>
+    <div class="clause-body">
+      <p>本政策适用于 Alfred 软件，包括后台服务、桌面 App、命令行工具和连接你的消息应用的程序，以及本网站 nowa.im/alfred。</p>
+    </div>
+  </section>
+
+  <section class="clause">
+    <h2>我们不接收你的数据</h2>
+    <div class="clause-body">
+      <p>我们不运营接收 Alfred 数据的服务器。Alfred 没有向我们发送任何内容的访问统计、遥测或崩溃上报。我们看不到、取不到、也无法恢复你的数据，也没有可以出售或分享的数据。</p>
+    </div>
+  </section>
+
+  <section class="clause">
+    <h2>Alfred 处理的信息</h2>
+    <div class="clause-body">
+      <p>Alfred 只处理你接入或交给它的信息：</p>
+      <ul>
+        <li>你和 Alfred 的对话，以及工作区里的提醒、事项、笔记、人物档案和其他文件。</li>
+        <li>Alfred 为你交代的事读取的工作区以外的文件，以及你发给它的图片和文件。</li>
+        <li>你接入的邮箱里的邮件，包括发件人、收件人、主题、正文和附件，以及 Alfred 替你发出的邮件。</li>
+        <li>你接入的日历里的日程、日历列表和忙闲时间。</li>
+        <li>你为接入服务提供的凭据：API key、登录 token 和密码。</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="clause">
+    <h2>Alfred 怎样使用这些信息</h2>
+    <div class="clause-body">
+      <p>只用于提供你使用的功能：告诉你值得关注的新邮件，搜索和整理邮件，起草回复，管理日程，提醒你，跟进你交给它的事。Alfred 的设计是：它写的内容送达别人之前先问你。用 Alfred 自己的工具发出的邮件和日历邀请，每次都问，只发出你同意的版本。对你添加的工具或电脑上的某个程序，你可以告诉 Alfred 以后不用再问；对沙箱外的命令，你还可以允许一小时内不问。这些命令先经过一道自动检查，被拦下时才问你。</p>
+      <p>Alfred 不把你的数据用于广告，不出售，也不为任何其他人建立画像。</p>
+    </div>
+  </section>
+
+  <section class="clause">
+    <h2>存在哪里</h2>
+    <div class="clause-body">
+      <p>存在你的电脑上，默认位置是：</p>
+      <ul>
+        <li><code>~/Alfred</code>：工作区，你和 Alfred 都可以读写的文件。</li>
+        <li><code>~/.config/alfred-runtime</code>：设置、凭据和登录。凭据文件只有你的用户账户能读。</li>
+        <li>macOS 上的 <code>~/Library/Application Support/alfred-runtime</code>，Linux 上的 <code>~/.local/share/alfred-runtime</code>：Alfred 对事件和对话的记录，包括它读过的邮件的正文。</li>
+      </ul>
+      <p>桌面 App 把登录 token，以及它显示过的图片和你在其中打开过的文件的副本，存在它自己在本机的文件夹里，直到你在它的设置里清除。Alfred 的日志只记 ID 和原因，不记消息内容和姓名。用 <code>alfred backup</code> 做的备份也是你电脑上的文件，里面包括你的凭据，请妥善保管。</p>
+    </div>
+  </section>
+
+  <section class="clause">
+    <h2>数据什么时候离开你的电脑</h2>
+    <div class="clause-body">
+      <p>Alfred 只把数据发往下面列出的地方，并且只为提供你开启的功能。比如你选定的分类里来了新邮件，模型会在邮件到达时读取，以便 Alfred 告诉你。</p>
+      <ul>
+        <li><strong>你的 AI 模型服务商。</strong>模型读取当前任务需要的内容，比如它要总结的那封邮件的正文。你选的服务商按它自己的条款、隐私政策和你在那里的账户设置处理这些内容，其中包括能否用你的内容改进模型。接入之前请先查看。</li>
+        <li><strong>你接入的账户。</strong>Alfred 在你授予的权限内，读取和修改你的邮箱和日历。</li>
+        <li><strong>你写信的对象。</strong>你同意发出的消息和邮件会发给收件人，日历邀请和更新会发给日程的参会人。</li>
+        <li><strong>你的消息应用。</strong>如果你通过消息应用和 Alfred 对话，对话会经过这个应用的服务器，其中包括 Alfred 告诉你或问你的邮件的正文。有些消息应用不是端到端加密的，敏感信息请在桌面 App 或终端里处理。</li>
+        <li><strong>网页搜索和网页。</strong>Alfred 替你搜索或打开网页时，搜索词或网址会发给搜索服务（可能就是你的 AI 模型服务商）或那个网站。</li>
+        <li><strong>工具和命令。</strong>你添加的工具服务器，以及 Alfred 替你运行的命令和程序，会收到任务交给它们的内容，并可能按它们本身的设计访问网络。</li>
+        <li><strong>退订。</strong>你让 Alfred 帮你退订邮件列表时，它把退订请求发到发件人在邮件里给出的网址。</li>
+        <li><strong>你自己的设备。</strong>你在另一台电脑上使用桌面 App 时，它通过你的网络连接 Alfred。</li>
+        <li><strong>更新。</strong>除非你关闭自动更新，Alfred 每天在项目的公开发布页或你设置的镜像检查一次新版本，并从那里下载。这些请求不带个人数据；和任何网络请求一样，对方能看到你的 IP 地址。</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="clause">
+    <h2>接入的账户中的数据</h2>
+    <div class="clause-body">
+      <p>接入邮箱或日历时，Alfred 申请以下权限：</p>
+      <ul>
+        <li><strong>邮箱：</strong>完整的邮箱权限，这是 Alfred 使用的标准邮件协议（IMAP 和 SMTP）的要求；以及邮箱基本设置的权限，Alfred 只用它管理过滤器。Alfred 用邮箱权限读取和搜索邮件；整理邮件，比如加标签或归档，Alfred 可以撤销；发送邮件，每一封都要经你同意；在你开启时，把回信的草稿放进草稿箱，之后再移除；在你要求时，列出、建立和删除邮件过滤器；在你要求时，帮你退订邮件列表。除了它自己放进草稿箱的草稿，Alfred 不删除任何邮件。</li>
+        <li><strong>日历：</strong>读取、新建、修改和删除日程，回复邀请，查看日历列表，查询忙闲时间。Alfred 不申请分享或删除整个日历的权限。</li>
+      </ul>
+      <p>这些账户中的数据只用于提供上述功能，这些功能你在 Alfred 里看得到、用得到。这些数据只按“数据什么时候离开你的电脑”一节所述离开你的电脑。它们不会被出售，也不用于广告。Alfred 不使用、也不转交这些数据来开发、改进或训练通用的 AI 或机器学习模型。你的 AI 模型服务商能否用收到的内容训练模型，取决于它的条款和你在那里的账户设置；如果你在意，请选择不这样做的服务商或设置。我们收不到这些数据，我们这边也没有任何人能读到。</p>
+      <p>你可以随时撤回 Alfred 的权限：在账户的安全设置里，从已授权的应用列表中移除。要同时删除本机上的登录，删除 <code>~/.config/alfred-runtime</code> 下这个账户的文件。</p>
+    </div>
+  </section>
+
+  <section class="clause">
+    <h2>保存和删除</h2>
+    <div class="clause-body">
+      <p>Alfred 把数据保存在你的电脑上，直到你删除。工作区里的文件随时可以修改和删除。要删除全部数据，请卸载 Alfred：</p>
+      <ul>
+        <li>停止它的各个服务，并把它们从 macOS 的 <code>~/Library/LaunchAgents</code> 或 Linux 的 <code>~/.config/systemd/user</code> 中移除。</li>
+        <li>删除 <code>~/.local/bin</code> 里 Alfred 的程序，以及安装程序在 shell 启动文件里加的那一行。</li>
+        <li>删除上面列出的文件夹、它的日志（macOS 上是 <code>~/Library/Logs</code> 里的 <code>alfred-*.log</code> 文件，Linux 上是你的用户日志里它的各个服务的记录）和你做过的备份。</li>
+        <li>删除桌面 App 和它的数据文件夹。</li>
+      </ul>
+      <p>已经发给 AI 模型服务商等其他服务的数据，按它们各自的政策保存。</p>
+    </div>
+  </section>
+
+  <section class="clause">
+    <h2>本网站</h2>
+    <div class="clause-body">
+      <p>本网站是静态网站，不使用 cookie，不统计访问，不加载第三方资源。你选的语言和外观存在浏览器的本地存储里，不会离开你的浏览器。托管服务商可能按它自己的政策保存常规的服务器日志，比如 IP 地址。</p>
+    </div>
+  </section>
+
+  <section class="clause">
+    <h2>安全</h2>
+    <div class="clause-body">
+      <p>Alfred 的凭据文件只有你的用户账户能读，每次更新安装前都验证签名，它写的内容送达别人之前按上文所述先问你。第一次安装依靠安全的（HTTPS）下载和校验和。没有绝对安全的软件，请保护好你的电脑、账户和磁盘，比如开启磁盘加密。</p>
+    </div>
+  </section>
+
+  <section class="clause">
+    <h2>儿童</h2>
+    <div class="clause-body">
+      <p>Alfred 不面向 13 岁以下、或低于所在国家规定的同意年龄的儿童。</p>
+    </div>
+  </section>
+
+  <section class="clause">
+    <h2>变更</h2>
+    <div class="clause-body">
+      <p>本政策变更时，我们会更新本页和页首的日期。本页的完整修改历史公开在 <a href="https://github.com/nowa/alfred/commits/main/site/privacy">github.com/nowa/alfred</a>。</p>
+    </div>
+  </section>
+
+  <section class="clause">
+    <h2>语言</h2>
+    <div class="clause-body">
+      <p>本政策以英文写成。译文仅供参考，如与英文版不一致，以英文版为准。</p>
+    </div>
+  </section>
+
+  <section class="clause">
+    <h2>联系</h2>
+    <div class="clause-body">
+      <p>对本政策有疑问，请在 <a href="https://github.com/nowa/alfred/issues">github.com/nowa/alfred/issues</a> 提交 issue。issue 是公开的，请不要写入个人信息。</p>
+    </div>
+  </section>
+</article>
+
+<article class="doc l10n" lang="ja">
+  <header class="doc-head">
+    <p class="governs">このページは英語版の翻訳で、参考のためのものです。内容に相違がある場合は英語版が優先します。<button type="button" data-read="en">英語版を読む</button></p>
+    <h1>プライバシーポリシー</h1>
+    <p class="updated">最終更新日：<time datetime="2026-11-14">2026年11月14日</time></p>
+    <p class="lede">Alfred は、あなたが自分のコンピュータにインストールして動かすアシスタントで、Alfred プロジェクト（以下「私たち」）が公開しています。このポリシーでは、Alfred が扱う情報と、その保管場所、送信先を説明します。</p>
+    <p class="lede">要約：Alfred はデータをあなたのコンピュータに保管します。データを送るのは、このポリシーに記載した送信先に対して、あなたが使う機能のためだけです。私たちには何も届きません。</p>
+  </header>
+
+  <section class="clause">
+    <h2>対象</h2>
+    <div class="clause-body">
+      <p>このポリシーは、Alfred のソフトウェア（バックグラウンドのサービス、デスクトップアプリ、コマンドラインツール、接続したメッセージアプリとの連携プログラム）と、このウェブサイト nowa.im/alfred に適用されます。</p>
+    </div>
+  </section>
+
+  <section class="clause">
+    <h2>私たちはデータを受け取りません</h2>
+    <div class="clause-body">
+      <p>Alfred からデータを受け取るサーバーを、私たちは運営していません。Alfred には、私たちに何かを送るアクセス解析、テレメトリー、クラッシュレポートの機能はありません。私たちはあなたのデータを見ることも、取り出すことも、復元することもできず、販売や共有をするデータも持っていません。</p>
+    </div>
+  </section>
+
+  <section class="clause">
+    <h2>Alfred が扱う情報</h2>
+    <div class="clause-body">
+      <p>Alfred が扱うのは、あなたが接続したもの、渡したものだけです。</p>
+      <ul>
+        <li>Alfred との会話と、ワークスペースにあるリマインダー、タスク、メモ、人物のプロフィールなどのファイル。</li>
+        <li>あなたが頼んだ作業のために Alfred が読む、ワークスペース外のファイルと、あなたが Alfred に送った画像やファイル。</li>
+        <li>接続したメールアカウントのメッセージ（差出人、宛先、件名、本文、添付ファイルを含む）と、Alfred があなたの代わりに送るメール。</li>
+        <li>接続したカレンダーの予定、カレンダーの一覧、空き時間。</li>
+        <li>接続するサービスのために渡した認証情報（API キー、ログインのトークン、パスワード）。</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="clause">
+    <h2>Alfred による利用</h2>
+    <div class="clause-body">
+      <p>あなたが使う機能を提供するためだけに使います。大事な新着メールを知らせる、メールを検索・整理する、返信を下書きする、予定を管理する、リマインドする、任された用件をフォローする、といった機能です。Alfred は、書いたものが他の人に届く前にあなたに確認するように作られています。Alfred 自身のツールで送るメールとカレンダーの招待は毎回確認し、承認された版だけを送ります。あなたが追加したツールやコンピュータ上のプログラムについては、今後確認しなくてよいと伝えることができ、サンドボックス外のコマンドについては、1 時間確認なしにすることもできます。これらのコマンドはまず自動チェックを通り、止められたときにだけあなたに確認します。</p>
+      <p>Alfred はあなたのデータを広告に使わず、販売せず、ほかの誰かのためのプロファイル作成にも使いません。</p>
+    </div>
+  </section>
+
+  <section class="clause">
+    <h2>保管場所</h2>
+    <div class="clause-body">
+      <p>あなたのコンピュータの中です。既定では次の場所に保管します。</p>
+      <ul>
+        <li><code>~/Alfred</code>：ワークスペース。あなたと Alfred の両方が読み書きできるファイル。</li>
+        <li><code>~/.config/alfred-runtime</code>：設定、認証情報、ログイン。認証情報のファイルは、あなたのユーザーアカウントだけが読めます。</li>
+        <li>macOS では <code>~/Library/Application Support/alfred-runtime</code>、Linux では <code>~/.local/share/alfred-runtime</code>：Alfred によるイベントと会話の記録（読んだメールの本文を含む）。</li>
+      </ul>
+      <p>デスクトップアプリは、ログインのトークンと、表示した画像やアプリで開いたファイルのコピーを、設定で消去するまで、コンピュータ上の自身のフォルダに保管します。Alfred のログに残るのは ID と理由だけで、メッセージの内容や名前は残りません。<code>alfred backup</code> で作るバックアップもあなたのコンピュータ上のファイルで、認証情報を含むため、大切に保管してください。</p>
+    </div>
+  </section>
+
+  <section class="clause">
+    <h2>データがコンピュータの外に出るとき</h2>
+    <div class="clause-body">
+      <p>Alfred がデータを送るのは、以下に挙げる送信先に対してだけで、あなたがオンにした機能を提供するためだけです。たとえば、選んだカテゴリに新しいメールが届くと、Alfred が知らせられるよう、モデルがそのときに読みます。</p>
+      <ul>
+        <li><strong>AI モデルの提供者。</strong>モデルは、要約するメールの本文など、その作業に必要な内容を読みます。あなたが選んだ提供者は、その利用規約、プライバシーポリシー、そこでのアカウント設定（あなたのコンテンツをモデルの改善に使えるかどうかを含む）に従って処理します。接続する前に確認してください。</li>
+        <li><strong>接続したアカウント。</strong>Alfred は、あなたが許可した範囲で、メールとカレンダーのアカウントを読み、変更します。</li>
+        <li><strong>あなたが書く相手。</strong>あなたが承認したメッセージやメールはその宛先に、カレンダーの招待や更新は予定の参加者に届きます。</li>
+        <li><strong>メッセージアプリ。</strong>メッセージアプリで Alfred とやり取りする場合、会話はそのアプリのサーバーを通ります。Alfred が知らせたり確認したりするメールの本文も含まれます。エンドツーエンドで暗号化されないアプリもあるため、機密性の高い情報はデスクトップアプリかターミナルで扱ってください。</li>
+        <li><strong>ウェブの検索とページ。</strong>Alfred があなたのためにウェブを検索したりページを開いたりすると、検索語やアドレスが検索サービス（AI モデルの提供者の場合もあります）やそのウェブサイトに送られます。</li>
+        <li><strong>ツールとコマンド。</strong>あなたが追加したツールサーバーや、Alfred があなたのために実行するコマンドやプログラムは、作業で渡された内容を受け取り、それぞれの作りに応じてネットワークにアクセスすることがあります。</li>
+        <li><strong>配信停止。</strong>メーリングリストの配信停止を頼まれると、Alfred は差出人がメールに記載したウェブアドレスに配信停止のリクエストを送ります。</li>
+        <li><strong>あなた自身のデバイス。</strong>別のコンピュータでデスクトップアプリを使う場合、アプリはあなたのネットワークを通じて Alfred に接続します。</li>
+        <li><strong>アップデート。</strong>自動アップデートをオフにしない限り、Alfred は 1 日 1 回、プロジェクトの公開リリースページまたはあなたが設定したミラーで新しいバージョンを確認し、そこからダウンロードします。このリクエストに個人データは含まれませんが、ほかのウェブのリクエストと同じく、ホストからは IP アドレスが見えます。</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="clause">
+    <h2>接続したアカウントのデータ</h2>
+    <div class="clause-body">
+      <p>メールやカレンダーのアカウントを接続するとき、Alfred は次のアクセスを求めます。</p>
+      <ul>
+        <li><strong>メール：</strong>メールボックスへの完全なアクセス（Alfred が使う標準のメールプロトコル IMAP と SMTP がこれを必要とします）と、メールの基本設定へのアクセス（Alfred はフィルタにだけ使います）。Alfred はメールボックスへのアクセスを使って、メールを読み、検索する。ラベル付けやアーカイブなどで整理する（Alfred が元に戻せます）。メールを送る（1 通ごとにあなたの承認が必要）。オンにした場合は、返信の下書きを下書きフォルダに入れ、あとで取り除く。頼まれたときに、メールのフィルタを一覧、作成、削除する。頼まれたときに、メーリングリストの配信を停止する。Alfred は、自分で入れた下書き以外のメールを削除しません。</li>
+        <li><strong>カレンダー：</strong>予定を読み、作成、変更、削除し、招待に返答する。カレンダーの一覧を見る。空き時間を確認する。カレンダー全体を共有したり削除したりするアクセスは求めません。</li>
+      </ul>
+      <p>これらのアカウントのデータは、あなたが Alfred で目にし、使う上記の機能を提供するためだけに使います。データがコンピュータの外に出るのは、「データがコンピュータの外に出るとき」で説明した場合だけです。販売せず、広告にも使いません。Alfred は、このデータを汎用の AI や機械学習モデルの開発、改善、学習のために使ったり渡したりしません。AI モデルの提供者が受け取った内容で学習できるかどうかは、その規約とそこでのアカウント設定によります。気になる場合は、学習に使わない提供者や設定を選んでください。私たちはこのデータを受け取らないため、私たちの側の誰かがそれを読むこともありません。</p>
+      <p>アクセスはいつでも取り消せます。アカウントのセキュリティ設定で、アクセスを許可したアプリの一覧から取り消してください。コンピュータ上のログインも消すには、<code>~/.config/alfred-runtime</code> 以下にあるそのアカウントのファイルを削除してください。</p>
+    </div>
+  </section>
+
+  <section class="clause">
+    <h2>保存期間と削除</h2>
+    <div class="clause-body">
+      <p>Alfred は、あなたが削除するまでデータをコンピュータに保管します。ワークスペースのファイルは、いつでも編集、削除できます。すべてを消すには、Alfred をアンインストールします。</p>
+      <ul>
+        <li>各サービスを止め、macOS では <code>~/Library/LaunchAgents</code>、Linux では <code>~/.config/systemd/user</code> から取り除く。</li>
+        <li><code>~/.local/bin</code> から Alfred のプログラムを削除し、インストーラーがシェルの起動ファイルに加えた行を削除する。</li>
+        <li>上記のフォルダ、ログ（macOS では <code>~/Library/Logs</code> にある <code>alfred-*.log</code> ファイル、Linux ではユーザーのジャーナルにある各サービスの記録）、作成したバックアップを削除する。</li>
+        <li>デスクトップアプリとそのデータフォルダを削除する。</li>
+      </ul>
+      <p>AI モデルの提供者などほかのサービスにすでに送られたデータは、それぞれのポリシーに従って保管されます。</p>
+    </div>
+  </section>
+
+  <section class="clause">
+    <h2>このウェブサイト</h2>
+    <div class="clause-body">
+      <p>このサイトは静的なサイトです。Cookie を使わず、アクセス解析をせず、第三者のリソースを読み込みません。言語と外観の選択はブラウザのローカルストレージに保存され、ブラウザの外には出ません。ホスティング事業者は、IP アドレスなど通常のサーバーログを、自身のポリシーに従って保管することがあります。</p>
+    </div>
+  </section>
+
+  <section class="clause">
+    <h2>セキュリティ</h2>
+    <div class="clause-body">
+      <p>Alfred は、認証情報のファイルをあなたのユーザーアカウントだけが読めるようにし、アップデートのたびにインストールの前に署名を検証し、Alfred が書いたものが他の人に届く前に、上で説明したとおりあなたに確認します。最初のインストールは、安全な（HTTPS の）ダウンロードとチェックサムに基づきます。完全に安全なソフトウェアはありません。ディスクの暗号化などで、コンピュータ、そのアカウント、ディスクを守ってください。</p>
+    </div>
+  </section>
+
+  <section class="clause">
+    <h2>子ども</h2>
+    <div class="clause-body">
+      <p>Alfred は、13 歳未満、またはお住まいの国で同意に必要な年齢に満たない子どもを対象としていません。</p>
+    </div>
+  </section>
+
+  <section class="clause">
+    <h2>変更</h2>
+    <div class="clause-body">
+      <p>このポリシーを変更したときは、このページと冒頭の日付を更新します。このページの変更履歴はすべて <a href="https://github.com/nowa/alfred/commits/main/site/privacy">github.com/nowa/alfred</a> で公開しています。</p>
+    </div>
+  </section>
+
+  <section class="clause">
+    <h2>言語</h2>
+    <div class="clause-body">
+      <p>このポリシーは英語で書かれています。翻訳は参考のためのもので、内容に相違がある場合は英語版が優先します。</p>
+    </div>
+  </section>
+
+  <section class="clause">
+    <h2>お問い合わせ</h2>
+    <div class="clause-body">
+      <p>このポリシーについての質問は、<a href="https://github.com/nowa/alfred/issues">github.com/nowa/alfred/issues</a> で issue を作成してください。issue は公開されるため、個人情報は書かないでください。</p>
+    </div>
+  </section>
+</article>
+
+</main>
+
+<footer class="wrap foot ruled">
+  <svg class="mark" viewBox="0 0 100 100" aria-hidden="true">
+    <rect width="100" height="100" rx="22.5" class="mark-tile"/>
+    <path d="M22 78 L50 24 L78 78" class="mark-line" fill="none" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M57 78 L50 24" class="mark-accent" fill="none" stroke-width="4.5" stroke-linecap="round"/>
+  </svg>
+  <div class="foot-text">
+    <p class="l10n" lang="en">Alfred is released at <a href="https://github.com/nowa/alfred">github.com/nowa/alfred</a>.</p>
+    <p class="l10n" lang="zh-Hans">Alfred 发布在 <a href="https://github.com/nowa/alfred">github.com/nowa/alfred</a>。</p>
+    <p class="l10n" lang="ja">Alfred は <a href="https://github.com/nowa/alfred">github.com/nowa/alfred</a> で公開しています。</p>
+    <p class="foot-links">
+      <a href="../privacy/" aria-current="page"><span class="l10n" lang="en">Privacy Policy</span><span class="l10n" lang="zh-Hans">隐私政策</span><span class="l10n" lang="ja">プライバシーポリシー</span></a>
+      <a href="../terms/"><span class="l10n" lang="en">Terms of Service</span><span class="l10n" lang="zh-Hans">服务条款</span><span class="l10n" lang="ja">利用規約</span></a>
+    </p>
+  </div>
+</footer>
+
+<script type="module" src="../legal.js"></script>
+</body>
+</html>
