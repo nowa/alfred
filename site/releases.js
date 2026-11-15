@@ -11,6 +11,13 @@ const PLATFORMS = [
 ];
 // semver forbids leading zeros, which is also what keeps the old 2026.11.07 out.
 const SEMVER = /^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)$/;
+// A release of the desktop app is tagged app-<version>. It is never the repository's latest
+// release, which the installed Alfred reads, and its files have these names.
+const APP = /^app-((0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*))$/;
+const DESKTOP = [
+  ["macos_arm64.zip", "os.darwin.arm64"],
+  ["linux_amd64.tar.gz", "os.linux.amd64"],
+];
 // The newest few; the link under the list leads to the rest on GitHub.
 const SHOWN = 5;
 
@@ -150,6 +157,48 @@ function release(r, latest, t, lang, tag) {
     li.append(details);
   }
   return li;
+}
+
+/** The version of the newest release of the desktop app in data, or null when it has none. */
+function desktopVersion(data) {
+  let newest = null;
+  for (const r of data?.releases ?? []) {
+    const m = APP.exec(r.version);
+    if (!m) continue;
+    const numbers = m.slice(2).map(Number);
+    const differs = numbers.findIndex((n, i) => n !== newest?.numbers[i]);
+    if (!newest || (differs >= 0 && numbers[differs] > newest.numbers[differs])) {
+      newest = { version: m[1], numbers };
+    }
+  }
+  return newest?.version ?? null;
+}
+
+/**
+ * Draws the downloads of the newest desktop app into el, and says whether there is one: data is
+ * releases.json, or null when it could not be read. t looks up the page's words.
+ */
+export function drawDesktop(el, data, t) {
+  el.replaceChildren();
+  const version = desktopVersion(data);
+  if (!version) return false;
+  const base = `${REPO}/download/app-${version}`;
+  const downloads = make("div", "downloads");
+  downloads.setAttribute("role", "group");
+  downloads.setAttribute("aria-label", `${t("releases.download")} ${t("desktop.title")} ${version}`);
+  for (const [file, name] of DESKTOP) {
+    const a = link(`${base}/Alfred_${version}_${file}`, t(name));
+    a.insertAdjacentHTML("afterbegin", ARROW);
+    downloads.append(a);
+  }
+  const files = make("p", "files");
+  files.append(
+    make("span", null, `${t("desktop.version")} ${version}`),
+    link(`${REPO}/tag/app-${version}`, t("desktop.notes")),
+    link(`${base}/SHA256SUMS`, t("file.sums")),
+  );
+  el.append(downloads, files);
+  return true;
 }
 
 /**

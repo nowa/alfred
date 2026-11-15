@@ -53,6 +53,7 @@
     <a href="#how" data-t="nav.how">特点</a>
     <a href="#measure" data-t="nav.measure">评测</a>
     <a href="#install" data-t="nav.install">安装</a>
+    <a href="#desktop" id="nav-desktop" data-t="nav.desktop" hidden>桌面端</a>
     <a href="#releases" data-t="nav.releases">版本</a>
   </nav>
   <div class="controls">
@@ -202,6 +203,18 @@
       <p data-t="install.later">跳过的设置，以后直接在对话里让 Alfred 补上。<code>alfred doctor</code> 说明哪一部分不正常。</p>
       <p data-t="install.update">服务每天检查一次新版本，核对签名和哈希之后，等手上的事做完再换上；新版本启动不了，就换回旧版本和升级前的数据。也可以随时运行 <code>alfred update</code>。</p>
       <p class="aside" data-t="install.source">以前从源码装过的 Mac：换成这个安装以后，macOS 会把它当作新的程序。要连局域网里的服务，到“系统设置 &gt; 隐私与安全性 &gt; 本地网络”里重新打开。</p>
+    </div>
+  </section>
+  <section class="wrap section ruled" id="desktop" aria-labelledby="desktop-title" hidden>
+    <div class="section-head">
+      <h2 id="desktop-title" data-t="desktop.title">桌面端</h2>
+      <p data-t="desktop.intro">Alfred 自己的桌面 App，连着你那台机器上的 Alfred。macOS（Apple 芯片）和 Linux（x86-64）。</p>
+    </div>
+    <div class="steps">
+      <div id="desktop-downloads"></div>
+      <p data-t="desktop.mac">macOS 的包由 Apple 公证：解压后把 Alfred 拖进“应用程序”。</p>
+      <p data-t="desktop.linux">Linux 的包解开后运行里面的 <code>Alfred</code>。要 Ubuntu 24.04 或同样新的发行版，并装有 <code>libgtk-4-1</code> 和 <code>libwebkitgtk-6.0-4</code>。</p>
+      <p data-t="desktop.pair">装好以后，在运行 Alfred 的机器上执行 <code>alfred pair</code>，把得到的链接或配对码交给 App。</p>
     </div>
   </section>
   <section class="wrap section ruled" id="releases" aria-labelledby="releases-title">

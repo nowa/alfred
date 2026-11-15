@@ -5,7 +5,7 @@
 import { STRINGS, ONLY_IN_SCRIPT, FIGURES } from "./strings.js";
 import { drawAttention } from "./attention.js";
 import { drawWeek, drawLinks, drawBrief } from "./figures.js";
-import { drawReleases } from "./releases.js";
+import { drawDesktop, drawReleases } from "./releases.js";
 
 const root = document.documentElement;
 const TAGS = { zh: "zh-Hans", en: "en", ja: "ja" };
@@ -35,6 +35,19 @@ const releaseList = document.getElementById("release-list");
 // undefined while releases.json is on its way, null when it could not be read.
 let releases;
 
+// The desktop app's section and its link in the bar are there once a release of the app is.
+const desktop = document.getElementById("desktop");
+const desktopDownloads = document.getElementById("desktop-downloads");
+const desktopLink = document.getElementById("nav-desktop");
+function showDesktop() {
+  const has = drawDesktop(desktopDownloads, releases, t);
+  // A link to the section arrived while it was not there yet, so the browser had nowhere to go.
+  const arrived = has && desktop.hidden && location.hash === "#desktop";
+  desktop.hidden = !has;
+  desktopLink.hidden = !has;
+  if (arrived) desktop.scrollIntoView();
+}
+
 function speak(next) {
   lang = next;
   root.lang = TAGS[lang];
@@ -48,7 +61,10 @@ function speak(next) {
   drawLinks(links, FIGURES[lang]);
   brief.replaceChildren();
   drawBrief(brief, FIGURES[lang]);
-  if (releases !== undefined) drawReleases(releaseList, releases, t, lang, TAGS[lang]);
+  if (releases !== undefined) {
+    drawReleases(releaseList, releases, t, lang, TAGS[lang]);
+    showDesktop();
+  }
   root.classList.remove("pending");
 }
 
@@ -144,7 +160,10 @@ fetch("releases.json", { cache: "no-cache" })
     (data) => (releases = data),
     () => (releases = null),
   )
-  .then(() => drawReleases(releaseList, releases, t, lang, TAGS[lang]));
+  .then(() => {
+    drawReleases(releaseList, releases, t, lang, TAGS[lang]);
+    showDesktop();
+  });
 
 const still = matchMedia("(prefers-reduced-motion: reduce)").matches || location.hash === "#still";
 drawAttention(document.getElementById("attention"), { animate: !still, scale: 0.42 });

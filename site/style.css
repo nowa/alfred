@@ -131,6 +131,8 @@ p code, dd code { padding: 1px 5px; border-radius: 4px; background: var(--code);
 .sections { margin-left: auto; display: flex; gap: 24px; font-size: var(--s0); }
 .sections a { color: var(--ink-2); text-decoration: none; white-space: nowrap; }
 .sections a:hover { color: var(--ink); }
+/* The desktop section and its link show once a release of the app is known. */
+.sections a[hidden], .section[hidden] { display: none; }
 .controls { display: flex; align-items: center; gap: 6px; margin-right: -8px; }
 /* A page without the sections still keeps the controls at the right. */
 .name + .controls { margin-left: auto; }
@@ -359,6 +361,7 @@ p code, dd code { padding: 1px 5px; border-radius: 4px; background: var(--code);
 /* minmax(0, 1fr): the command does not wrap, and must not widen the column. */
 .steps { display: grid; grid-template-columns: minmax(0, 1fr); gap: 18px; max-width: 40em; }
 .steps .install { margin-bottom: 10px; }
+.steps .downloads { margin-top: 0; }
 .steps p { color: var(--ink-2); }
 .steps .aside { font-size: var(--s0); color: var(--ink-3); }
 
